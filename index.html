@@ -1,27 +1,27 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dosologia -- Pediatric Dose Calculator</title>
+<title>Dosologia — Pediatric Dose Calculator</title>
 
 <!-- Fonts via jsDelivr NPM - most reliable CDN globally, 99.9% uptime -->
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <style>
-/* Playfair Display -- luxury serif (replaces Cormorant, same feel) */
+/* Playfair Display — luxury serif (replaces Cormorant, same feel) */
 @import url('https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5/index.min.css');
 @import url('https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5/700-italic.min.css');
-/* Source Code Pro -- elegant monospace (replaces Space Mono) */
+/* Source Code Pro — elegant monospace (replaces Space Mono) */
 @import url('https://cdn.jsdelivr.net/npm/@fontsource/source-code-pro@5/index.min.css');
-/* Noto Kufi Arabic -- premium Arabic font */
+/* Noto Kufi Arabic — premium Arabic font */
 @import url('https://cdn.jsdelivr.net/npm/@fontsource/noto-kufi-arabic@5/index.min.css');
 
 :root{
-–ff-serif:'Playfair Display','Georgia','Times New Roman',serif;
-–ff-mono:'Source Code Pro','Fira Code','Consolas','Courier New',monospace;
-–ff-arabic:'Noto Kufi Arabic','Tahoma','Arial',sans-serif;
+–ff-serif:‘Playfair Display’,‘Georgia’,‘Times New Roman’,serif;
+–ff-mono:‘Source Code Pro’,‘Fira Code’,‘Consolas’,‘Courier New’,monospace;
+–ff-arabic:‘Noto Kufi Arabic’,‘Tahoma’,‘Arial’,sans-serif;
 }
 </style>
 
@@ -561,7 +561,7 @@ footer{
     </svg>
     Dosologia
   </div>
-  <div class="nav-weight" id="navWt">-- kg</div>
+  <div class="nav-weight" id="navWt">— kg</div>
 </nav>
 
 <!-- ══ HERO ══ -->
@@ -650,7 +650,7 @@ footer{
 <div class="panel">
   <div class="panel-label">Patient Weight</div>
   <div class="w-row" onclick="document.getElementById('wNum').focus()">
-    <input type="number" id="wNum" class="w-input" placeholder="--" min="0.1" max="200" step="0.1" autocomplete="off">
+    <input type="number" id="wNum" class="w-input" placeholder="—" min="0.1" max="200" step="0.1" autocomplete="off">
     <span class="w-unit">kg</span>
   </div>
 </div>
@@ -659,10 +659,10 @@ footer{
 <div class="panel">
   <div class="panel-label">Maintenance IV Fluids (Holliday-Segar)</div>
   <div class="fluid-grid">
-    <div class="fluid-cell"><div class="fluid-val" id="fDay">--</div><div class="fluid-key">mL / day</div></div>
-    <div class="fluid-cell"><div class="fluid-val" id="fHr">--</div><div class="fluid-key">mL / hr</div></div>
-    <div class="fluid-cell"><div class="fluid-val" id="fBolus">--</div><div class="fluid-key">Bolus 20ml/kg</div></div>
-    <div class="fluid-cell"><div class="fluid-val" id="fShock">--</div><div class="fluid-key">Shock 10ml/kg</div></div>
+    <div class="fluid-cell"><div class="fluid-val" id="fDay">—</div><div class="fluid-key">mL / day</div></div>
+    <div class="fluid-cell"><div class="fluid-val" id="fHr">—</div><div class="fluid-key">mL / hr</div></div>
+    <div class="fluid-cell"><div class="fluid-val" id="fBolus">—</div><div class="fluid-key">Bolus 20ml/kg</div></div>
+    <div class="fluid-cell"><div class="fluid-val" id="fShock">—</div><div class="fluid-key">Shock 10ml/kg</div></div>
   </div>
 </div>
 
@@ -737,10 +737,10 @@ ster:[
 ],
 conv:[
   {n:'Diazepam®',c:'5mg/ml',dose:'0.3 mg/kg IV',dMin:0.1,dMax:0.3,b:'IV/PR',col:'#A78BFA',fr:'q10–15 min × 3',fl:'NS / GW',ci:'<6 months, avoid rapid injection',f:w=>({v:(w*0.3).toFixed(2),u:'mg / dose',e:'IV: '+(w*0.06).toFixed(2)+' cc | Rectal: '+(w*0.5/5).toFixed(2)+' cc (0.5 mg/kg)'})},
-  {n:'Phenobarbitol® -- Bolus (Luminal)',c:'200mg/ml',dose:'15 mg/kg',dMin:15,dMax:20,b:'IV',col:'#C084FC',fr:'Single loading dose',fl:'NS / GW / RL',ci:'Airway obstruction',f:w=>({v:(w*15).toFixed(0),u:'mg (bolus)',e:'Volume: '+(w*15/200).toFixed(2)+' cc'})},
-  {n:'Phenobarbitol® -- Maintenance',c:'200mg/ml',dose:'5 mg/kg',dMin:5,dMax:5,b:'IV',col:'#C084FC',fr:'BID (8–12h after LD)',fl:'NS / GW',ci:'Airway obstruction',f:w=>({v:(w*5).toFixed(0),u:'mg (maint.)',e:'Volume: '+(w*5/200).toFixed(2)+' cc'})},
-  {n:'Phenytoin® -- Bolus',c:'50mg/ml',dose:'15 mg/kg',dMin:15,dMax:20,b:'IV',col:'#818CF8',fr:'Loading dose -- over 20–30 min',fl:'NS ONLY!',ci:'Heart block, bradycardia',f:w=>({v:(w*15).toFixed(0),u:'mg (bolus)',e:'Volume: '+(w*15/50).toFixed(2)+' cc'})},
-  {n:'Phenytoin® -- Maintenance',c:'50mg/ml',dose:'5 mg/kg',dMin:5,dMax:5,b:'IV',col:'#818CF8',fr:'BID',fl:'NS ONLY!',ci:'Heart block, bradycardia',f:w=>({v:(w*5).toFixed(0),u:'mg (maint.)',e:'Volume: '+(w*5/50).toFixed(2)+' cc'})},
+  {n:'Phenobarbitol® — Bolus (Luminal)',c:'200mg/ml',dose:'15 mg/kg',dMin:15,dMax:20,b:'IV',col:'#C084FC',fr:'Single loading dose',fl:'NS / GW / RL',ci:'Airway obstruction',f:w=>({v:(w*15).toFixed(0),u:'mg (bolus)',e:'Volume: '+(w*15/200).toFixed(2)+' cc'})},
+  {n:'Phenobarbitol® — Maintenance',c:'200mg/ml',dose:'5 mg/kg',dMin:5,dMax:5,b:'IV',col:'#C084FC',fr:'BID (8–12h after LD)',fl:'NS / GW',ci:'Airway obstruction',f:w=>({v:(w*5).toFixed(0),u:'mg (maint.)',e:'Volume: '+(w*5/200).toFixed(2)+' cc'})},
+  {n:'Phenytoin® — Bolus',c:'50mg/ml',dose:'15 mg/kg',dMin:15,dMax:20,b:'IV',col:'#818CF8',fr:'Loading dose — over 20–30 min',fl:'NS ONLY!',ci:'Heart block, bradycardia',f:w=>({v:(w*15).toFixed(0),u:'mg (bolus)',e:'Volume: '+(w*15/50).toFixed(2)+' cc'})},
+  {n:'Phenytoin® — Maintenance',c:'50mg/ml',dose:'5 mg/kg',dMin:5,dMax:5,b:'IV',col:'#818CF8',fr:'BID',fl:'NS ONLY!',ci:'Heart block, bradycardia',f:w=>({v:(w*5).toFixed(0),u:'mg (maint.)',e:'Volume: '+(w*5/50).toFixed(2)+' cc'})},
 ],
 pyret:[
   {n:'Paracetamol® (Syrup/Supp)',c:'120mg/5ml',dose:'1–1.5 cc/kg',dMin:10,dMax:15,b:'PO/PR',col:'#3ECFCF',fr:'q6–8h (max 4 doses/day)',fl:'PO / Rectal',ci:'Liver damage',f:w=>({v:(w*1).toFixed(1),u:'cc / dose',e:'Max 1.5 cc/kg = '+(w*1.5).toFixed(1)+' cc'})},
@@ -749,29 +749,29 @@ pyret:[
   {n:'Ponstan® (Mefenamic acid)',c:'50mg/ml',dose:'20 mg/kg/dose',dMin:20,dMax:20,b:'PO',col:'#3ECFCF',fr:'TID',fl:'PO with food',ci:'GI ulcer, renal impairment, <6 months',f:w=>({v:(w*20).toFixed(0),u:'mg / dose',e:'Volume: '+(w*20/50).toFixed(1)+' cc'})},
 ],
 ab:[
-  {n:'Amoxicillin®',c:'--',dose:'100 mg/kg/day',dMin:80,dMax:100,b:'IV/PO',col:'#F9A825',fr:'TID (× 3)',fl:'10ml/200mg · 20–30 min',ci:'Allergy, EBV',f:w=>({v:(w*100).toFixed(0),u:'mg / day',e:'÷ 3 doses = '+(w*100/3).toFixed(0)+' mg/dose'})},
+  {n:'Amoxicillin®',c:'—',dose:'100 mg/kg/day',dMin:80,dMax:100,b:'IV/PO',col:'#F9A825',fr:'TID (× 3)',fl:'10ml/200mg · 20–30 min',ci:'Allergy, EBV',f:w=>({v:(w*100).toFixed(0),u:'mg / day',e:'÷ 3 doses = '+(w*100/3).toFixed(0)+' mg/dose'})},
   {n:'Flagyl® (Metronidazole)',c:'5mg/ml',dose:'1.5 cc/kg',dMin:15,dMax:30,b:'IV/PO',col:'#4EDFA0',fr:'TID (× 3)',fl:'100ml/500mg · 60 min',ci:'Liver failure, Porphyria',f:w=>({v:(w*1.5).toFixed(1),u:'cc / dose',e:'(1.5 cc/kg × 3/day)'})},
-  {n:'Ampicillin®',c:'--',dose:'100–200 mg/kg/day',dMin:100,dMax:200,b:'IV',col:'#F9A825',fr:'× 4 (infants) · × 2 (neonates)',fl:'15–30 min',ci:'Allergy, EBV',f:w=>({v:(w*150).toFixed(0),u:'mg / day',e:'Infant ÷4='+(w*150/4).toFixed(0)+' | Neonate ÷2='+(w*150/2).toFixed(0)+' mg'})},
-  {n:'Claforan® (Cefotaxime)',c:'--',dose:'100–200 mg/kg/day',dMin:100,dMax:200,b:'IV',col:'#3ECFCF',fr:'QID (× 4)',fl:'5ml/200mg · 10–30 min',ci:'Allergy, max 10 days',f:w=>({v:(w*150).toFixed(0),u:'mg / day',e:'÷ 4 doses = '+(w*150/4).toFixed(0)+' mg/dose'})},
-  {n:'Ceftriaxone®',c:'--',dose:'50–100 mg/kg/day',dMin:50,dMax:100,b:'IV/IM',col:'#3ECFCF',fr:'BID (× 2)',fl:'5ml/100mg · 15–30 min',ci:'NNJ, RL, Ca++, PKU',f:w=>({v:(w*75).toFixed(0),u:'mg / day',e:'÷ 2 doses = '+(w*75/2).toFixed(0)+' mg/dose'})},
-  {n:'Vancomycin®',c:'--',dose:'15 mg/kg/day',dMin:15,dMax:15,b:'IV',col:'#E05C6C',fr:'QID (× 4)',fl:'100ml/500mg · 60–90 min',ci:'Corn allergy, renal failure',f:w=>({v:(w*15).toFixed(0),u:'mg / day',e:'÷ 4 doses = '+(w*15/4).toFixed(0)+' mg/dose'})},
+  {n:'Ampicillin®',c:'—',dose:'100–200 mg/kg/day',dMin:100,dMax:200,b:'IV',col:'#F9A825',fr:'× 4 (infants) · × 2 (neonates)',fl:'15–30 min',ci:'Allergy, EBV',f:w=>({v:(w*150).toFixed(0),u:'mg / day',e:'Infant ÷4='+(w*150/4).toFixed(0)+' | Neonate ÷2='+(w*150/2).toFixed(0)+' mg'})},
+  {n:'Claforan® (Cefotaxime)',c:'—',dose:'100–200 mg/kg/day',dMin:100,dMax:200,b:'IV',col:'#3ECFCF',fr:'QID (× 4)',fl:'5ml/200mg · 10–30 min',ci:'Allergy, max 10 days',f:w=>({v:(w*150).toFixed(0),u:'mg / day',e:'÷ 4 doses = '+(w*150/4).toFixed(0)+' mg/dose'})},
+  {n:'Ceftriaxone®',c:'—',dose:'50–100 mg/kg/day',dMin:50,dMax:100,b:'IV/IM',col:'#3ECFCF',fr:'BID (× 2)',fl:'5ml/100mg · 15–30 min',ci:'NNJ, RL, Ca++, PKU',f:w=>({v:(w*75).toFixed(0),u:'mg / day',e:'÷ 2 doses = '+(w*75/2).toFixed(0)+' mg/dose'})},
+  {n:'Vancomycin®',c:'—',dose:'15 mg/kg/day',dMin:15,dMax:15,b:'IV',col:'#E05C6C',fr:'QID (× 4)',fl:'100ml/500mg · 60–90 min',ci:'Corn allergy, renal failure',f:w=>({v:(w*15).toFixed(0),u:'mg / day',e:'÷ 4 doses = '+(w*15/4).toFixed(0)+' mg/dose'})},
   {n:'Amikacin®',c:'500mg/2ml',dose:'15 mg/kg/day',dMin:15,dMax:15,b:'IV',col:'#4EDFA0',fr:'BID (× 2)',fl:'10ml/50mg · 30 min',ci:'Renal failure, Myasthenia',f:w=>({v:(w*15).toFixed(0),u:'mg / day',e:'÷ 2 doses = '+(w*15/2).toFixed(0)+' mg/dose'})},
-  {n:'Meropenem®',c:'--',dose:'100 mg/kg/dose',dMin:60,dMax:120,b:'IV',col:'#E05C6C',fr:'BID (× 2)',fl:'10ml/200mg · 15–30 min',ci:'Allergy, seizures, renal failure',f:w=>({v:(w*100).toFixed(0),u:'mg / dose',e:'(100 mg/kg per dose × 2/day)'})},
-  {n:'Erythromycin®',c:'--',dose:'10 mg/kg/day',dMin:10,dMax:10,b:'IV/PO',col:'#F9A825',fr:'TID (× 3)',fl:'slow infusion',ci:'QT prolongation, liver disease',f:w=>({v:(w*10).toFixed(0),u:'mg / day',e:'÷ 3 doses = '+(w*10/3).toFixed(0)+' mg/dose'})},
+  {n:'Meropenem®',c:'—',dose:'100 mg/kg/dose',dMin:60,dMax:120,b:'IV',col:'#E05C6C',fr:'BID (× 2)',fl:'10ml/200mg · 15–30 min',ci:'Allergy, seizures, renal failure',f:w=>({v:(w*100).toFixed(0),u:'mg / dose',e:'(100 mg/kg per dose × 2/day)'})},
+  {n:'Erythromycin®',c:'—',dose:'10 mg/kg/day',dMin:10,dMax:10,b:'IV/PO',col:'#F9A825',fr:'TID (× 3)',fl:'slow infusion',ci:'QT prolongation, liver disease',f:w=>({v:(w*10).toFixed(0),u:'mg / day',e:'÷ 3 doses = '+(w*10/3).toFixed(0)+' mg/dose'})},
 ],
 fluid:[
-  {n:'Blood (Whole Blood)',c:'--',dose:'20 cc/kg',dMin:20,dMax:20,b:'IV',col:'#E05C6C',fr:'over 3–4 hours',fl:'Blood warmer',ci:'Crossmatch required',f:w=>({v:(w*20).toFixed(0),u:'cc / transfusion',e:''})},
-  {n:'Packed R.B.C',c:'--',dose:'10 cc/kg',dMin:10,dMax:10,b:'IV',col:'#E05C6C',fr:'over 3–4 hours',fl:'Blood warmer',ci:'Crossmatch required',f:w=>({v:(w*10).toFixed(0),u:'cc / transfusion',e:''})},
-  {n:'Plasma (FFP)',c:'--',dose:'15 cc/kg',dMin:15,dMax:15,b:'IV',col:'#A78BFA',fr:'over 30–60 min',fl:'ABO compatible',ci:'Volume overload',f:w=>({v:(w*15).toFixed(0),u:'cc / dose',e:''})},
-  {n:'Cryo (Cryoprecipitate)',c:'--',dose:'1 pint/5 kg',dMin:1,dMax:1,b:'IV',col:'#A78BFA',fr:'over 30 min',fl:'ABO compatible',ci:'--',f:w=>({v:(w/5).toFixed(1),u:'pints / dose',e:''})},
-  {n:'Platelets',c:'--',dose:'1 pint/10 kg',dMin:1,dMax:1,b:'IV',col:'#FFD54F',fr:'over 20–30 min',fl:'ABO compatible',ci:'--',f:w=>({v:(w/10).toFixed(1),u:'pints / dose',e:''})},
-  {n:'Mannitol® 20%',c:'200mg/ml',dose:'2.5 cc/kg',dMin:2.5,dMax:5,b:'IV',col:'#3ECFCF',fr:'over 20–30 min',fl:'Filter required',ci:'Anuria, severe dehydration',f:w=>({v:(w*2.5).toFixed(1),u:'cc / dose',e:'(2.5 cc/kg) -- max 250 cc'})},
-  {n:'Hypertonic Saline 3% -- Asymptomatic',c:'3%',dose:'2 cc/kg',dMin:2,dMax:2,b:'IV',col:'#3ECFCF',fr:'over 15–30 min',fl:'Central line preferred',ci:'Hypernatremia',f:w=>({v:(w*2).toFixed(1),u:'cc / dose',e:'(asymptomatic hyponatremia)'})},
-  {n:'Hypertonic Saline 3% -- Symptomatic',c:'3%',dose:'4 cc/kg',dMin:4,dMax:4,b:'IV',col:'#E05C6C',fr:'STAT over 15 min',fl:'Central line preferred',ci:'Hypernatremia',f:w=>({v:(w*4).toFixed(1),u:'cc / dose',e:'(symptomatic -- seizures/coma)'})},
+  {n:'Blood (Whole Blood)',c:'—',dose:'20 cc/kg',dMin:20,dMax:20,b:'IV',col:'#E05C6C',fr:'over 3–4 hours',fl:'Blood warmer',ci:'Crossmatch required',f:w=>({v:(w*20).toFixed(0),u:'cc / transfusion',e:''})},
+  {n:'Packed R.B.C',c:'—',dose:'10 cc/kg',dMin:10,dMax:10,b:'IV',col:'#E05C6C',fr:'over 3–4 hours',fl:'Blood warmer',ci:'Crossmatch required',f:w=>({v:(w*10).toFixed(0),u:'cc / transfusion',e:''})},
+  {n:'Plasma (FFP)',c:'—',dose:'15 cc/kg',dMin:15,dMax:15,b:'IV',col:'#A78BFA',fr:'over 30–60 min',fl:'ABO compatible',ci:'Volume overload',f:w=>({v:(w*15).toFixed(0),u:'cc / dose',e:''})},
+  {n:'Cryo (Cryoprecipitate)',c:'—',dose:'1 pint/5 kg',dMin:1,dMax:1,b:'IV',col:'#A78BFA',fr:'over 30 min',fl:'ABO compatible',ci:'—',f:w=>({v:(w/5).toFixed(1),u:'pints / dose',e:''})},
+  {n:'Platelets',c:'—',dose:'1 pint/10 kg',dMin:1,dMax:1,b:'IV',col:'#FFD54F',fr:'over 20–30 min',fl:'ABO compatible',ci:'—',f:w=>({v:(w/10).toFixed(1),u:'pints / dose',e:''})},
+  {n:'Mannitol® 20%',c:'200mg/ml',dose:'2.5 cc/kg',dMin:2.5,dMax:5,b:'IV',col:'#3ECFCF',fr:'over 20–30 min',fl:'Filter required',ci:'Anuria, severe dehydration',f:w=>({v:(w*2.5).toFixed(1),u:'cc / dose',e:'(2.5 cc/kg) — max 250 cc'})},
+  {n:'Hypertonic Saline 3% — Asymptomatic',c:'3%',dose:'2 cc/kg',dMin:2,dMax:2,b:'IV',col:'#3ECFCF',fr:'over 15–30 min',fl:'Central line preferred',ci:'Hypernatremia',f:w=>({v:(w*2).toFixed(1),u:'cc / dose',e:'(asymptomatic hyponatremia)'})},
+  {n:'Hypertonic Saline 3% — Symptomatic',c:'3%',dose:'4 cc/kg',dMin:4,dMax:4,b:'IV',col:'#E05C6C',fr:'STAT over 15 min',fl:'Central line preferred',ci:'Hypernatremia',f:w=>({v:(w*4).toFixed(1),u:'cc / dose',e:'(symptomatic — seizures/coma)'})},
   {n:'Albumin 20%',c:'200mg/ml',dose:'0.5g/kg',dMin:0.5,dMax:1,b:'IV',col:'#FFD54F',fr:'over 2–4 hours',fl:'NS 1:1 dilution',ci:'Cardiac failure',f:w=>({v:(w*0.5).toFixed(1),u:'g / dose',e:'Volume: '+(w*0.5/0.2).toFixed(0)+' cc of 20% solution'})},
 ],
 other:[
-  {n:'Adrenaline® (Epinephrine)',c:'1mg/ml',dose:'1 unit/kg/dose',dMin:0.01,dMax:0.03,b:'IV/IM',col:'#E05C6C',fr:'q3–5 min',fl:'NS flush',ci:'--',f:w=>({v:(w*1).toFixed(0),u:'units / dose',e:'= '+(w*0.01).toFixed(3)+' mg = '+(w*0.01).toFixed(3)+' cc'})},
+  {n:'Adrenaline® (Epinephrine)',c:'1mg/ml',dose:'1 unit/kg/dose',dMin:0.01,dMax:0.03,b:'IV/IM',col:'#E05C6C',fr:'q3–5 min',fl:'NS flush',ci:'—',f:w=>({v:(w*1).toFixed(0),u:'units / dose',e:'= '+(w*0.01).toFixed(3)+' mg = '+(w*0.01).toFixed(3)+' cc'})},
   {n:'Aminophylline®',c:'25mg/ml',dose:'1 cc/5 kg',dMin:5,dMax:8,b:'IV',col:'#FFD54F',fr:'LD then BID/TID',fl:'NS / GW / RL slow',ci:'Cardiac failure, arrhythmia',f:w=>({v:(w*0.2).toFixed(2),u:'cc (LD)',e:'(1 cc per 5 kg)'})},
   {n:'Allermin® (Chlorphenamine)',c:'10mg/ml',dose:'0.25 cc/5 kg',dMin:0.1,dMax:0.4,b:'IV/IM',col:'#A78BFA',fr:'BID–TID',fl:'NS / GW',ci:'Neonates, glaucoma',f:w=>({v:(w*0.05).toFixed(2),u:'cc / dose',e:'(0.25 cc per 5 kg)'})},
   {n:'Lasix® (Furosemide)',c:'10mg/ml',dose:'1 mg/kg',dMin:1,dMax:2,b:'IV/IM',col:'#3ECFCF',fr:'BID–QID',fl:'NS',ci:'Anuria',f:w=>({v:(w*1).toFixed(1),u:'mg / dose',e:'Volume: '+(w*1/10).toFixed(2)+' cc'})},
@@ -787,19 +787,19 @@ const DAILY=[
   {type:'quote',emoji:'📖',text:'"To study the phenomena of disease without books is to sail an uncharted sea, while to study books without patients is not to go to sea at all."',source:'Sir William Osler',color:'#4EDFA0'},
   {type:'quote',emoji:'📖',text:'"First Aid: The mechanism is the answer. Never memorize what you can derive."',source:'First Aid for the USMLE Step 1',color:'#4EDFA0'},
   {type:'quote',emoji:'📖',text:'"Step 1 tests one thing above all: can you think like a basic scientist standing at the bedside?"',source:'USMLE Step 1 Study Principle',color:'#3ECFCF'},
-  {type:'quote',emoji:'📖',text:'"Primum non nocere -- First, do no harm."',source:'Hippocratic Tradition',color:'#C9A84C'},
+  {type:'quote',emoji:'📖',text:'"Primum non nocere — First, do no harm."',source:'Hippocratic Tradition',color:'#C9A84C'},
   {type:'quote',emoji:'📖',text:'"The secret of the care of the patient is in caring for the patient."',source:'Francis W. Peabody, JAMA 1927',color:'#A78BFA'},
   {type:'quote',emoji:'📖',text:'"Wherever the art of medicine is loved, there is also a love of humanity."',source:'Hippocrates',color:'#A78BFA'},
-  {type:'fact',emoji:'🧠',text:'الدماغ البشري يستهلك 20% من أوكسجين الجسم رغم أنه لا يتجاوز 2% من وزنه -- ولهذا يفقد الطفل وعيه في ثوانٍ عند انقطاع التدفق الدماغي.',source:'Neurophysiology · Clinical Pearls',color:'#A78BFA'},
-  {type:'fact',emoji:'❤️',text:'قلب الجنين يبدأ بالنبض في اليوم الـ22 من الحمل -- قبل أن تعرف الأم أنها حامل في الغالب.',source:'Embryology · Moore & Persaud',color:'#E05C6C'},
-  {type:'fact',emoji:'🦠',text:'جسم الإنسان يحتوي على بكتيريا أكثر من خلاياه -- نسبة 1.3:1 لصالح البكتيريا. الـ microbiome ليس عدواً، بل شريك حياة.',source:'Human Microbiome Project · NIH',color:'#4EDFA0'},
-  {type:'fact',emoji:'🩺',text:'الستيثوسكوب اخترعه René Laennec عام 1816 لأنه استحى أن يضع أذنه على صدر مريضة سمينة -- الحياء أم الاختراع.',source:'History of Medicine · Laennec 1816',color:'#F9A825'},
-  {type:'fact',emoji:'🧬',text:'الـ DNA في خلية واحدة إذا فُرد بالكامل يبلغ طوله حوالي 2 متر -- وجسمك يحتوي 37 تريليون خلية.',source:'Molecular Biology Perspective',color:'#3ECFCF'},
-  {type:'fact',emoji:'🔬',text:'الـ Penicillin اكتشفه Fleming عام 1928 بالصدفة -- لكن العبقرية الحقيقية كانت في إدراكه أن ما رآه ليس خطأً بل اكتشافاً.',source:'Alexander Fleming · Nobel Prize 1945',color:'#4EDFA0'},
-  {type:'fact',emoji:'🌙',text:'النوم العميق (Slow-wave sleep) هو وقت تنظيف الدماغ حرفياً -- الـ glymphatic system يعمل بالليل لإزالة البروتينات الضارة.',source:'Sleep Neuroscience · Nedergaard 2013',color:'#A78BFA'},
+  {type:'fact',emoji:'🧠',text:'الدماغ البشري يستهلك 20% من أوكسجين الجسم رغم أنه لا يتجاوز 2% من وزنه — ولهذا يفقد الطفل وعيه في ثوانٍ عند انقطاع التدفق الدماغي.',source:'Neurophysiology · Clinical Pearls',color:'#A78BFA'},
+  {type:'fact',emoji:'❤️',text:'قلب الجنين يبدأ بالنبض في اليوم الـ22 من الحمل — قبل أن تعرف الأم أنها حامل في الغالب.',source:'Embryology · Moore & Persaud',color:'#E05C6C'},
+  {type:'fact',emoji:'🦠',text:'جسم الإنسان يحتوي على بكتيريا أكثر من خلاياه — نسبة 1.3:1 لصالح البكتيريا. الـ microbiome ليس عدواً، بل شريك حياة.',source:'Human Microbiome Project · NIH',color:'#4EDFA0'},
+  {type:'fact',emoji:'🩺',text:'الستيثوسكوب اخترعه René Laennec عام 1816 لأنه استحى أن يضع أذنه على صدر مريضة سمينة — الحياء أم الاختراع.',source:'History of Medicine · Laennec 1816',color:'#F9A825'},
+  {type:'fact',emoji:'🧬',text:'الـ DNA في خلية واحدة إذا فُرد بالكامل يبلغ طوله حوالي 2 متر — وجسمك يحتوي 37 تريليون خلية.',source:'Molecular Biology Perspective',color:'#3ECFCF'},
+  {type:'fact',emoji:'🔬',text:'الـ Penicillin اكتشفه Fleming عام 1928 بالصدفة — لكن العبقرية الحقيقية كانت في إدراكه أن ما رآه ليس خطأً بل اكتشافاً.',source:'Alexander Fleming · Nobel Prize 1945',color:'#4EDFA0'},
+  {type:'fact',emoji:'🌙',text:'النوم العميق (Slow-wave sleep) هو وقت تنظيف الدماغ حرفياً — الـ glymphatic system يعمل بالليل لإزالة البروتينات الضارة.',source:'Sleep Neuroscience · Nedergaard 2013',color:'#A78BFA'},
   {type:'meme',emoji:'😅',text:'Intern يسمع hoofbeats:\n"Horses? Zebras? Rare tropical disease?\nبكره أكمل الـ DDx..."\n\nConsultant: "Viral. يروح بيته."',source:'Medical Hierarchy · Universal Truth',color:'#A78BFA'},
   {type:'meme',emoji:'😭',text:'Step 1 studying timeline:\nأسبوع 1: "أنا رح أفهم كل pathway من الأساس"\nأسبوع 8: "Golgi يشغل أو لا؟"\nأسبوع 14: "ما فرق، الجواب C دايماً"',source:'USMLE Step 1 Experience',color:'#A78BFA'},
-  {type:'meme',emoji:'🎯',text:'الفرق بين Intern وConsultant:\nIntern: يكتب 3 صفحات.\nConsultant: "Improving, continue plan."\n\nكلاهم صح -- الخبرة تكثّف.',source:'Clinical Wisdom · Residency Life',color:'#A78BFA'},
+  {type:'meme',emoji:'🎯',text:'الفرق بين Intern وConsultant:\nIntern: يكتب 3 صفحات.\nConsultant: "Improving, continue plan."\n\nكلاهم صح — الخبرة تكثّف.',source:'Clinical Wisdom · Residency Life',color:'#A78BFA'},
   {type:'meme',emoji:'☕',text:'محادثة كل يوم في المستشفى:\n"كيف حالك؟"\n"تعبان، بس القهوة تساعد."\n\nالقهوة: أكثر دواء استخدامه الأطباء يومياً بدون وصفة.',source:'Medical Humor · Universal',color:'#F9A825'},
   {type:'meme',emoji:'🏥',text:'"On call" يعني: الساعة 3 صبح، طفل يبكي، أهل يسألون عن الداكتور الكبير، وأنت... أنت الداكتور الكبير الآن.',source:'Residency Life · Pediatrics Ward',color:'#F9A825'},
 ];
@@ -819,7 +819,7 @@ function renderDaily(idx){
   document.getElementById('dailyDate').textContent=d.toLocaleDateString('ar-IQ',{weekday:'long',day:'numeric',month:'long'});
   document.getElementById('dailyEmoji').textContent=it.emoji;
   document.getElementById('dailyText').textContent=it.text;
-  document.getElementById('dailySrc').textContent='-- '+it.source;
+  document.getElementById('dailySrc').textContent='— '+it.source;
   const nav=document.getElementById('dailyNav');
   nav.innerHTML='';
   DAILY.forEach((_,i)=>{
@@ -872,19 +872,19 @@ function renderDKA(){
     </div>
   </div>
   <div class="dka-sec">
-    <div class="dka-sec-lbl">Step 1 -- Resuscitation (Shock Only)</div>
+    <div class="dka-sec-lbl">Step 1 — Resuscitation (Shock Only)</div>
     <div class="dka-cards">
       <div class="dka-c" style="--dc3:#E05C6C">
         <div class="dka-alert">⚠ ONLY if hemodynamic compromise</div>
         <div class="dka-c-name">Normal Saline 0.9% Bolus</div>
-        <div class="dka-c-sub">فقط عند shock أو تدهور الدوران -- لا تُعطى روتينياً</div>
+        <div class="dka-c-sub">فقط عند shock أو تدهور الدوران — لا تُعطى روتينياً</div>
         <div class="dka-r"><div class="dka-rl">Volume</div><div class="dka-rv">${bolus}</div><div class="dka-ru">mL over 10–20 min (10 ml/kg) · max 20 ml/kg total</div></div>
         <div class="dka-warn">⚠ ISPAD 2022: Aggressive fluids ↑ risk of cerebral edema.</div>
       </div>
     </div>
   </div>
   <div class="dka-sec">
-    <div class="dka-sec-lbl">Step 2 -- IV Rehydration over 48 hours</div>
+    <div class="dka-sec-lbl">Step 2 — IV Rehydration over 48 hours</div>
     <div class="dka-cards">
       <div class="dka-c" style="--dc3:#F9A825">
         <div class="dka-c-name">Moderate Dehydration (~7%)</div>
@@ -903,15 +903,15 @@ function renderDKA(){
     </div>
   </div>
   <div class="dka-sec">
-    <div class="dka-sec-lbl">Step 3 -- Insulin Infusion</div>
+    <div class="dka-sec-lbl">Step 3 — Insulin Infusion</div>
     <div class="dka-cards">
       <div class="dka-c" style="--dc3:#3ECFCF">
         <div class="dka-c-name">Regular Insulin IV Infusion</div>
-        <div class="dka-c-sub">لا تُعطى إلا بعد ساعة من بدء السوائل -- لا bolus insulin</div>
+        <div class="dka-c-sub">لا تُعطى إلا بعد ساعة من بدء السوائل — لا bolus insulin</div>
         <div class="dka-r"><div class="dka-rl">Dose (Standard)</div><div class="dka-rv">${insH}</div><div class="dka-ru">units/hour (0.1 unit/kg/hr)</div></div>
-        <div class="dka-r"><div class="dka-rl">Dose (Mild / Young child)</div><div class="dka-rv">${insL}</div><div class="dka-ru">units/hour (0.05 unit/kg/hr) -- ISPAD 2022 preferred</div></div>
+        <div class="dka-r"><div class="dka-rl">Dose (Mild / Young child)</div><div class="dka-rv">${insL}</div><div class="dka-ru">units/hour (0.05 unit/kg/hr) — ISPAD 2022 preferred</div></div>
         <div class="dka-note">📌 Target BG drop: 50–100 mg/dL per hour. NOT faster.</div>
-        <div class="dka-warn">⚠ Add 5% Dextrose when BG &lt;300 mg/dL (14 mmol/L) -- do NOT stop insulin.</div>
+        <div class="dka-warn">⚠ Add 5% Dextrose when BG &lt;300 mg/dL (14 mmol/L) — do NOT stop insulin.</div>
       </div>
       <div class="dka-c" style="--dc3:#4EDFA0">
         <div class="dka-c-name">Dextrose Addition</div>
@@ -922,7 +922,7 @@ function renderDKA(){
     </div>
   </div>
   <div class="dka-sec">
-    <div class="dka-sec-lbl">Step 4 -- Potassium Replacement</div>
+    <div class="dka-sec-lbl">Step 4 — Potassium Replacement</div>
     <div class="dka-cards">
       <div class="dka-c" style="--dc3:#FFD54F">
         <div class="dka-c-name">KCl Replacement</div>
@@ -934,10 +934,10 @@ function renderDKA(){
     </div>
   </div>
   <div class="dka-sec">
-    <div class="dka-sec-lbl">Step 5 -- Bicarbonate (Rarely Needed)</div>
+    <div class="dka-sec-lbl">Step 5 — Bicarbonate (Rarely Needed)</div>
     <div class="dka-cards">
       <div class="dka-c" style="--dc3:#A78BFA">
-        <div class="dka-c-name">NaHCO₃ -- Exceptional Use Only</div>
+        <div class="dka-c-name">NaHCO₃ — Exceptional Use Only</div>
         <div class="dka-c-sub">ISPAD 2022: غير موصى به إلا في حالات نادرة جداً</div>
         <div class="dka-r"><div class="dka-rl">Indication</div><div class="dka-rv" style="font-size:1rem;padding-top:4px">pH &lt; 6.9</div><div class="dka-ru">+ Life-threatening hyperkalemia or hemodynamic instability</div></div>
         <div class="dka-r"><div class="dka-rl">Dose</div><div class="dka-rv">${(wt*1).toFixed(0)}–${(wt*2).toFixed(0)}</div><div class="dka-ru">mEq slow IV over 60 min (1–2 mEq/kg)</div></div>
@@ -950,10 +950,10 @@ function renderDKA(){
     <div class="dka-c" style="--dc3:#3ECFCF">
       <div class="dka-c-name">Mandatory Monitoring</div>
       <div class="dka-steps">
-        <div class="dka-step"><span class="dka-step-n">q1h</span><div class="dka-step-b"><strong>BG (bedside glucometer)</strong> -- target drop 50–100 mg/dL/hr, not faster</div></div>
-        <div class="dka-step"><span class="dka-step-n">q2h</span><div class="dka-step-b"><strong>Vitals + neuro check</strong> -- GCS, pupils, headache, vomiting → cerebral edema signs</div></div>
-        <div class="dka-step"><span class="dka-step-n">q2–4h</span><div class="dka-step-b"><strong>ABG/VBG + electrolytes + BUN/Cr</strong> -- monitor K⁺ closely, check anion gap closure</div></div>
-        <div class="dka-step"><span class="dka-step-n">AG formula</span><div class="dka-step-b"><strong>Na⁺ + K⁺ − Cl⁻ − HCO₃⁻</strong> -- normal &lt;12. DKA resolved: AG closes + HCO₃ &gt;15 + pH &gt;7.30</div></div>
+        <div class="dka-step"><span class="dka-step-n">q1h</span><div class="dka-step-b"><strong>BG (bedside glucometer)</strong> — target drop 50–100 mg/dL/hr, not faster</div></div>
+        <div class="dka-step"><span class="dka-step-n">q2h</span><div class="dka-step-b"><strong>Vitals + neuro check</strong> — GCS, pupils, headache, vomiting → cerebral edema signs</div></div>
+        <div class="dka-step"><span class="dka-step-n">q2–4h</span><div class="dka-step-b"><strong>ABG/VBG + electrolytes + BUN/Cr</strong> — monitor K⁺ closely, check anion gap closure</div></div>
+        <div class="dka-step"><span class="dka-step-n">AG formula</span><div class="dka-step-b"><strong>Na⁺ + K⁺ − Cl⁻ − HCO₃⁻</strong> — normal &lt;12. DKA resolved: AG closes + HCO₃ &gt;15 + pH &gt;7.30</div></div>
         <div class="dka-step"><span class="dka-step-n" style="color:#E05C6C">⚠ EDEMA</span><div class="dka-step-b" style="color:#f0a0aa"><strong>Cerebral Edema:</strong> Headache, vomiting, ↓consciousness, bradycardia, ↑BP, pupil changes → Mannitol 0.5–1 g/kg IV STAT</div></div>
       </div>
     </div>
@@ -1000,7 +1000,7 @@ function init(){
 function onWeight(w){
   W=w;
   const nw=document.getElementById('navWt');
-  nw.textContent=W?`${W} kg`:'-- kg';
+  nw.textContent=W?`${W} kg`:'— kg';
   nw.className='nav-weight'+(W?' has-val':'');
   updateFluids();
   if(CAT==='dka') renderDKA();
@@ -1008,7 +1008,7 @@ function onWeight(w){
 }
 
 function updateFluids(){
-  if(!W){['fDay','fHr','fBolus','fShock'].forEach(id=>document.getElementById(id).textContent='--');return;}
+  if(!W){['fDay','fHr','fBolus','fShock'].forEach(id=>document.getElementById(id).textContent='—');return;}
   let d;
   if(W<=10) d=W*100;
   else if(W<=20) d=1000+(W-10)*50;
@@ -1078,9 +1078,9 @@ function render(){
           </div>
           <div class="freq-row">
             <span class="freq-pill">⏱ ${d.fr}</span>
-            ${d.fl&&d.fl!=='--'?`<span class="freq-pill">💧 ${d.fl}</span>`:''}
+            ${d.fl&&d.fl!=='—'?`<span class="freq-pill">💧 ${d.fl}</span>`:''}
           </div>
-          ${d.ci&&d.ci!=='--'?`<div class="ci-box"><strong>⚠ Contraindications</strong>${d.ci}</div>`:''}
+          ${d.ci&&d.ci!=='—'?`<div class="ci-box"><strong>⚠ Contraindications</strong>${d.ci}</div>`:''}
         </div>`;
       } else {
         body=`<div class="res-panel"><div class="no-w-hint">← Enter patient weight first</div></div>`;
@@ -1137,7 +1137,7 @@ function render(){
 
   setTimeout(function(){
     if(!fontsLoaded()){
-      // Google Fonts failed -- load Bunny fallback
+      // Google Fonts failed — load Bunny fallback
       var l1 = document.createElement('link');
       l1.rel = 'stylesheet';
       l1.href = 'https://fonts.bunny.net/css?family=cormorant-garamond:300,300i,400,400i,600,600i,700,700i|space-mono:400,700|tajawal:300,400,500,700&display=swap';
