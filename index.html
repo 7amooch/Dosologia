@@ -1,0 +1,1107 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dosologia -- Pediatric Dose Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Space+Mono:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#04060C;
+  --paper:#080C14;
+  --s1:#0E1420;
+  --s2:#141B2A;
+  --s3:#1C2538;
+  --gold:#C9A84C;
+  --gold2:#E8C97A;
+  --teal:#3ECFCF;
+  --rose:#E05C6C;
+  --mint:#4EDFA0;
+  --lavender:#A78BFA;
+  --text:#EBE9E1;
+  --dim:#8A9BB0;
+  --dimmer:#3D4D62;
+  --border:rgba(201,168,76,0.12);
+  --border2:rgba(201,168,76,0.2);
+  --r:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ══ BACKGROUND SYSTEM ══ */
+body::before{
+content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+background:
+radial-gradient(ellipse 900px 700px at 15% 0%,rgba(201,168,76,0.05) 0%,transparent 60%),
+radial-gradient(ellipse 700px 900px at 85% 100%,rgba(62,207,207,0.04) 0%,transparent 60%),
+radial-gradient(ellipse 500px 500px at 50% 40%,rgba(167,139,250,0.03) 0%,transparent 60%);
+}
+.grid-bg{
+position:fixed;inset:0;pointer-events:none;z-index:0;
+background-image:
+linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),
+linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px);
+background-size:80px 80px;
+mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);
+}
+.noise{
+position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.025;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ══ TOP NAVBAR ══ */
+.navbar{
+position:sticky;top:0;z-index:200;
+display:flex;align-items:center;justify-content:space-between;
+padding:12px 28px;
+background:rgba(8,12,20,0.82);
+backdrop-filter:blur(24px);
+border-bottom:1px solid var(–border);
+}
+.nav-logo{
+display:flex;align-items:center;gap:10px;
+font-family:'Cormorant Garamond',serif;
+font-size:1.25rem;font-weight:700;letter-spacing:0.5px;
+background:linear-gradient(135deg,var(–gold2),var(–gold));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.nav-logo svg{flex-shrink:0}
+.nav-weight{
+font-family:'Space Mono',monospace;font-size:0.82rem;
+color:var(–gold);
+background:rgba(201,168,76,0.08);
+border:1px solid rgba(201,168,76,0.2);
+border-radius:8px;padding:6px 14px;
+transition:all .3s;
+}
+.nav-weight.has-val{
+color:var(–mint);background:rgba(78,223,160,0.08);
+border-color:rgba(78,223,160,0.25);
+box-shadow:0 0 20px rgba(78,223,160,0.1);
+}
+
+/* ══ HERO HEADER ══ */
+.hero{
+padding:52px 24px 0;
+text-align:center;
+position:relative;z-index:1;
+max-width:900px;margin:0 auto;
+}
+.hero-icon{
+width:72px;height:72px;
+margin:0 auto 20px;
+position:relative;
+display:flex;align-items:center;justify-content:center;
+}
+.hero-icon-ring{
+position:absolute;inset:0;
+border-radius:22px;
+background:linear-gradient(135deg,var(–gold),var(–teal));
+opacity:.15;
+animation:ringPulse 3s ease infinite;
+}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.15}50%{transform:scale(1.12);opacity:.08}}
+.hero-icon-inner{
+position:relative;z-index:1;
+width:56px;height:56px;
+border-radius:17px;
+background:linear-gradient(135deg,var(–s3),var(–s2));
+border:1px solid rgba(201,168,76,0.25);
+box-shadow:0 0 40px rgba(201,168,76,0.2),inset 0 1px 0 rgba(255,255,255,0.05);
+display:flex;align-items:center;justify-content:center;
+}
+.hero-h1{
+font-family:'Cormorant Garamond',serif;
+font-size:clamp(2.8rem,7vw,4.8rem);
+font-weight:300;
+letter-spacing:-1px;
+line-height:1;
+color:var(–text);
+margin-bottom:8px;
+}
+.hero-h1 span{
+font-weight:700;font-style:italic;
+background:linear-gradient(135deg,var(–gold2) 0%,var(–gold) 60%,#a8864a 100%);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+font-family:'Space Mono',monospace;
+font-size:0.68rem;letter-spacing:4px;text-transform:uppercase;
+color:var(–dimmer);margin-bottom:10px;
+}
+.hero-byline{
+font-family:'Space Mono',monospace;font-size:0.65rem;
+color:var(–dimmer);
+}
+.hero-byline strong{color:var(–gold);font-weight:400;}
+.heart{display:inline-block;animation:hb 1.6s ease infinite;color:var(–rose);-webkit-text-fill-color:var(–rose)}
+@keyframes hb{0%,100%{transform:scale(1)}14%{transform:scale(1.4)}28%{transform:scale(1)}}
+
+/* ── SOCIAL LINKS ── */
+.social-row{
+display:flex;align-items:center;justify-content:center;
+gap:10px;margin-top:14px;
+}
+.social-btn{
+display:inline-flex;align-items:center;gap:7px;
+font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:1.5px;
+padding:6px 14px;border-radius:8px;text-decoration:none;
+transition:all .22s;border:1px solid;cursor:pointer;
+}
+.social-tg{
+color:#29B6F6;border-color:rgba(41,182,246,0.2);background:rgba(41,182,246,0.07);
+}
+.social-tg:hover{border-color:rgba(41,182,246,0.5);background:rgba(41,182,246,0.14);box-shadow:0 0 20px rgba(41,182,246,0.15)}
+.social-reddit{
+color:#FF6B35;border-color:rgba(255,107,53,0.2);background:rgba(255,107,53,0.07);
+}
+.social-reddit:hover{border-color:rgba(255,107,53,0.5);background:rgba(255,107,53,0.14);box-shadow:0 0 20px rgba(255,107,53,0.15)}
+
+/* ── DAILY CARD ── */
+.daily-wrap{max-width:700px;margin:28px auto 0;padding:0 12px}
+.daily-card{
+background:var(–s1);
+border:1px solid var(–border);
+border-radius:18px;
+padding:22px 26px 18px;
+position:relative;overflow:hidden;
+animation:fadeUp .6s ease .1s both;
+}
+.daily-card::before{
+content:'';position:absolute;top:0;left:0;right:0;height:1px;
+background:linear-gradient(90deg,transparent,var(–dc,var(–gold)),transparent);
+}
+.daily-glow{
+position:absolute;top:-80px;right:-80px;width:240px;height:240px;
+border-radius:50%;pointer-events:none;opacity:.05;
+}
+.daily-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.daily-badge{
+font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:2.5px;text-transform:uppercase;
+padding:3px 10px;border-radius:4px;border:1px solid;
+}
+.daily-date{font-family:'Space Mono',monospace;font-size:0.55rem;color:var(–dimmer);letter-spacing:1px}
+.daily-body{display:flex;align-items:flex-start;gap:14px}
+.daily-emoji{font-size:1.8rem;flex-shrink:0;margin-top:2px;line-height:1}
+.daily-text{
+font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;
+line-height:1.7;color:var(–text);flex:1;white-space:pre-line;
+}
+.daily-source{font-family:'Space Mono',monospace;font-size:0.57rem;color:var(–dimmer);margin-top:8px}
+.daily-nav{display:flex;gap:5px;margin-top:14px;justify-content:center;flex-wrap:wrap}
+.daily-dot{
+width:5px;height:5px;border-radius:50%;
+background:var(–s3);cursor:pointer;
+transition:all .2s;border:1px solid transparent;
+}
+.daily-dot.active{background:var(–dc,var(–gold));border-color:var(–dc,var(–gold));width:18px;border-radius:3px}
+
+/* ══ MAIN LAYOUT ══ */
+.layout{
+display:grid;
+grid-template-columns:300px 1fr;
+gap:20px;
+padding:24px 20px 80px;
+max-width:1300px;margin:0 auto;
+position:relative;z-index:1;
+}
+
+/* ══ SIDEBAR ══ */
+.sidebar{
+position:sticky;top:66px;
+height:fit-content;
+display:flex;flex-direction:column;gap:14px;
+}
+.panel{
+background:var(–s1);
+border:1px solid var(–border);
+border-radius:var(–r);
+padding:18px;
+transition:border-color .3s;
+}
+.panel:hover{border-color:var(–border2)}
+.panel-label{
+font-family:'Space Mono',monospace;font-size:0.58rem;
+letter-spacing:3px;text-transform:uppercase;
+color:var(–gold);margin-bottom:14px;
+display:flex;align-items:center;gap:8px;
+}
+.panel-label::before{content:'';width:16px;height:1px;background:var(–gold);display:inline-block;opacity:.6}
+
+/* ── WEIGHT INPUT ── */
+.w-row{
+display:flex;align-items:center;gap:6px;
+background:var(–s2);border:1px solid var(–border);
+border-radius:11px;padding:6px 16px;
+transition:all .3s;cursor:text;
+}
+.w-row:focus-within{
+border-color:rgba(201,168,76,0.4);
+box-shadow:0 0 0 3px rgba(201,168,76,0.06),0 0 30px rgba(201,168,76,0.08);
+}
+.w-input{
+flex:1;background:none;border:none;outline:none;
+font-family:'Space Mono',monospace;font-size:3.6rem;font-weight:400;
+color:var(–gold2);text-align:right;
+caret-color:var(–gold);
+text-shadow:0 0 40px rgba(201,168,76,0.3);
+-moz-appearance:textfield;min-width:0;
+}
+.w-input::-webkit-outer-spin-button,.w-input::-webkit-inner-spin-button{-webkit-appearance:none}
+.w-input::placeholder{color:var(–dimmer);opacity:.5}
+.w-unit{font-family:'Space Mono',monospace;font-size:0.9rem;color:var(–dim)}
+
+/* ── FLUIDS GRID ── */
+.fluid-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.fluid-cell{
+background:var(–s2);border-radius:10px;
+padding:10px 12px;border:1px solid var(–border);
+text-align:center;transition:all .3s;
+}
+.fluid-val{
+font-family:'Space Mono',monospace;font-size:1.25rem;
+color:var(–lavender);
+text-shadow:0 0 20px rgba(167,139,250,0.3);
+transition:all .4s;
+}
+.fluid-key{
+font-family:'Space Mono',monospace;font-size:0.55rem;
+color:var(–dimmer);margin-top:3px;letter-spacing:1px;text-transform:uppercase;
+}
+
+/* ── SEARCH ── */
+.search-box{
+width:100%;background:var(–s2);
+border:1px solid var(–border);border-radius:10px;
+padding:11px 44px 11px 16px;
+color:var(–text);font-size:0.9rem;font-family:'Tajawal',sans-serif;
+outline:none;transition:all .3s;direction:rtl;
+}
+.search-box:focus{border-color:rgba(62,207,207,0.35);box-shadow:0 0 20px rgba(62,207,207,0.08)}
+.search-box::placeholder{color:var(–dimmer)}
+.search-wrap{position:relative}
+.search-ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(–dimmer);pointer-events:none;font-size:1rem}
+
+/* ══ TABS ══ */
+.tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:20px}
+.tab{
+padding:6px 14px;border-radius:20px;
+font-size:0.72rem;cursor:pointer;
+border:1px solid var(–border);
+color:var(–dim);background:transparent;
+font-family:'Space Mono',monospace;
+transition:all .2s;white-space:nowrap;letter-spacing:0.3px;
+}
+.tab:hover:not(.active){border-color:rgba(201,168,76,0.3);color:var(–gold)}
+.tab.active{
+background:var(–gold);color:var(–ink);
+border-color:var(–gold);font-weight:700;
+box-shadow:0 0 20px rgba(201,168,76,0.3);
+}
+.tab.dka-tab{border-color:rgba(224,92,108,0.2);color:var(–rose)}
+.tab.dka-tab.active{background:var(–rose);border-color:var(–rose);color:#fff;box-shadow:0 0 20px rgba(224,92,108,0.3)}
+
+/* ══ SECTION HEADER ══ */
+.sec-head{margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(–border)}
+.sec-title{
+font-family:'Cormorant Garamond',serif;
+font-size:1.9rem;font-weight:600;font-style:italic;
+color:var(–text);line-height:1;
+}
+.sec-count{
+font-family:'Space Mono',monospace;font-size:0.6rem;
+color:var(–dimmer);margin-top:4px;letter-spacing:2px;text-transform:uppercase;
+}
+
+/* ══ DRUG GRID & CARDS ══ */
+.drugs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.drug-card{
+background:var(–s1);border:1px solid var(–border);
+border-radius:var(–r);overflow:hidden;
+cursor:pointer;transition:all .25s;
+position:relative;
+}
+.drug-card::after{
+content:'';position:absolute;top:0;left:0;right:0;height:2px;
+background:linear-gradient(90deg,transparent,var(–cc,var(–gold)),transparent);
+opacity:0;transition:opacity .3s;
+}
+.drug-card:hover{
+border-color:var(–cc,var(–gold));
+transform:translateY(-3px);
+box-shadow:0 12px 40px rgba(0,0,0,.4),0 0 0 1px rgba(201,168,76,0.05);
+}
+.drug-card:hover::after{opacity:1}
+.drug-card.sel{
+border-color:var(–cc,var(–gold));
+background:var(–s2);
+}
+.drug-card.sel::after{opacity:1}
+
+.d-head{padding:15px 15px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.d-name{font-size:0.96rem;font-weight:700;color:var(–text);line-height:1.3}
+.d-conc{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(–dimmer);margin-top:3px}
+.d-route{
+padding:3px 8px;border-radius:5px;
+font-family:'Space Mono',monospace;font-size:0.6rem;font-weight:700;
+letter-spacing:0.5px;flex-shrink:0;white-space:nowrap;
+}
+.d-dose{padding:0 15px 12px}
+.d-chip{
+display:inline-block;
+background:var(–s3);border-radius:5px;
+padding:3px 9px;font-family:'Space Mono',monospace;
+font-size:0.63rem;color:var(–dim);
+}
+
+/* ── RESULT PANEL ── */
+.res-panel{
+padding:14px 15px;
+background:rgba(4,6,12,0.6);
+border-top:1px solid var(–border);
+display:none;
+animation:slideDown .28s ease;
+}
+.drug-card.sel .res-panel{display:block}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+
+.res-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.res-item{background:var(–s2);border-radius:9px;padding:10px;border:1px solid var(–border)}
+.res-lbl{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:2px;text-transform:uppercase;color:var(–dimmer);margin-bottom:5px}
+.res-val{font-family:'Space Mono',monospace;font-size:1.4rem;color:var(–mint);text-shadow:0 0 18px rgba(78,223,160,0.35)}
+.res-val.lg{font-size:1.9rem}
+.res-val.ac{color:var(–teal);text-shadow:0 0 18px rgba(62,207,207,0.3)}
+.res-sub{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(–dimmer);margin-top:3px;line-height:1.4}
+.res-sub.hi{color:var(–mint);opacity:.85}
+
+.rbar-wrap{margin-top:7px;height:4px;background:var(–s3);border-radius:2px;overflow:hidden}
+.rbar-fill{height:100%;width:0;border-radius:2px;transition:width .75s cubic-bezier(.16,1,.3,1);background:linear-gradient(90deg,var(–mint),var(–teal))}
+
+.freq-row{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}
+.freq-pill{
+background:rgba(62,207,207,0.07);
+border:1px solid rgba(62,207,207,0.18);
+border-radius:5px;padding:3px 9px;
+font-family:'Space Mono',monospace;font-size:0.63rem;
+color:var(–teal);
+}
+.ci-box{
+background:rgba(224,92,108,0.07);
+border:1px solid rgba(224,92,108,0.2);
+border-radius:8px;padding:8px 11px;
+font-size:0.72rem;color:#f0a0aa;
+}
+.ci-box strong{
+font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:2px;
+text-transform:uppercase;color:var(–rose);display:block;margin-bottom:4px;
+}
+.no-w-hint{
+padding:14px;text-align:center;
+font-family:'Space Mono',monospace;font-size:0.72rem;
+color:var(–dimmer);
+}
+.no-results{text-align:center;padding:60px 20px;color:var(–dimmer);grid-column:1/-1}
+.no-results .ico{font-size:2.5rem;margin-bottom:10px}
+
+/* ══ DKA PANEL ══ */
+.dka-src-row{
+background:var(–s1);border:1px solid var(–border);
+border-radius:11px;padding:10px 16px;margin-bottom:20px;
+display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.dka-pill{
+font-family:'Space Mono',monospace;font-size:0.57rem;letter-spacing:1px;
+color:var(–teal);background:rgba(62,207,207,0.07);
+border:1px solid rgba(62,207,207,0.15);border-radius:4px;padding:2px 8px;
+}
+.dka-wt{
+font-family:'Space Mono',monospace;font-size:0.57rem;
+color:var(–dimmer);margin-right:auto;letter-spacing:1px;
+}
+.dka-sec{margin-bottom:26px}
+.dka-sec-lbl{
+font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;
+color:var(–gold);margin-bottom:12px;
+display:flex;align-items:center;gap:10px;
+}
+.dka-sec-lbl::before{content:'';width:20px;height:1px;background:var(–gold);opacity:.6}
+.dka-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:11px}
+.dka-c{
+background:var(–s1);border:1px solid var(–border);
+border-radius:13px;padding:15px;
+position:relative;overflow:hidden;transition:border-color .2s;
+}
+.dka-c::before{
+content:'';position:absolute;top:0;left:0;right:0;height:1.5px;
+background:linear-gradient(90deg,transparent,var(–dc3,#E05C6C),transparent);
+}
+.dka-c:hover{border-color:rgba(224,92,108,0.25)}
+.dka-c-name{font-size:0.9rem;font-weight:700;margin-bottom:3px}
+.dka-c-sub{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(–dimmer);margin-bottom:11px}
+.dka-r{
+background:var(–ink);border-radius:9px;
+padding:10px 12px;border:1px solid var(–border);margin-bottom:7px;
+}
+.dka-rl{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:2px;text-transform:uppercase;color:var(–dimmer);margin-bottom:3px}
+.dka-rv{font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:400;color:var(–mint);line-height:1;transition:all .3s}
+.dka-ru{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(–dimmer);margin-top:3px;line-height:1.4}
+.dka-note{font-size:0.7rem;color:var(–dim);line-height:1.6;margin-top:7px;background:rgba(62,207,207,0.04);border-radius:7px;padding:7px 11px;border-left:2px solid rgba(62,207,207,0.2)}
+.dka-warn{font-size:0.7rem;color:#f0a0aa;line-height:1.6;margin-top:7px;background:rgba(224,92,108,0.05);border-radius:7px;padding:7px 11px;border-left:2px solid rgba(224,92,108,0.25)}
+.dka-alert{display:inline-block;font-family:'Space Mono',monospace;font-size:0.55rem;padding:2px 8px;border-radius:4px;margin-bottom:9px;font-weight:700;background:rgba(224,92,108,0.1);color:var(–rose);border:1px solid rgba(224,92,108,0.2)}
+.dka-sev3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.dka-sev-c{background:var(–s1);border:1px solid var(–border);border-radius:10px;padding:11px;text-align:center}
+.dka-sev-l{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:2px;text-transform:uppercase;color:var(–dimmer);margin-bottom:5px}
+.dka-sev-v{font-size:0.77rem;font-weight:600;line-height:1.5}
+.dka-steps{margin-top:10px}
+.dka-step{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(–border)}
+.dka-step:last-child{border-bottom:none}
+.dka-step-n{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(–teal);min-width:50px;padding-top:2px;flex-shrink:0}
+.dka-step-b{font-size:0.8rem;color:var(–dim);line-height:1.6;flex:1}
+.dka-step-b strong{color:var(–text);font-weight:600}
+.dka-no-w{text-align:center;padding:70px 20px;color:var(–dimmer)}
+.dka-no-w .ico{font-size:2.8rem;margin-bottom:12px}
+
+/* ══ FOOTER ══ */
+footer{
+position:relative;z-index:1;
+text-align:center;
+padding:32px 20px 40px;
+border-top:1px solid var(–border);
+margin-top:20px;
+}
+.footer-brand{
+font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;font-style:italic;
+background:linear-gradient(135deg,var(–gold2),var(–gold));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+margin-bottom:8px;
+}
+.footer-credit{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(–dimmer);margin-bottom:12px}
+.footer-social{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(–s3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(–dimmer)}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:960px){
+.layout{grid-template-columns:1fr}
+.sidebar{position:static}
+}
+@media(max-width:600px){
+.drugs-grid{grid-template-columns:1fr}
+.res-grid{grid-template-columns:1fr 1fr}
+.daily-text{font-size:.95rem}
+}
+</style>
+
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="noise"></div>
+
+<!-- ══ NAVBAR ══ -->
+
+<nav class="navbar">
+  <div class="nav-logo">
+    <!-- SVG ICON: stylized Rx / caduceus drop -->
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="26" height="26" rx="8" fill="url(#ng)" opacity=".15"/>
+      <rect x="1" y="1" width="26" height="26" rx="8" stroke="url(#ng)" stroke-width="1" fill="none"/>
+      <!-- Rx symbol -->
+      <text x="5" y="20" font-family="Georgia,serif" font-size="14" font-weight="700" fill="url(#nt)" font-style="italic">Rx</text>
+      <!-- small cross -->
+      <line x1="20" y1="8" x2="20" y2="14" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="17" y1="11" x2="23" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+      <defs>
+        <linearGradient id="ng" x1="0" y1="0" x2="28" y2="28">
+          <stop offset="0%" stop-color="#C9A84C"/>
+          <stop offset="100%" stop-color="#3ECFCF"/>
+        </linearGradient>
+        <linearGradient id="nt" x1="0" y1="0" x2="20" y2="0">
+          <stop offset="0%" stop-color="#E8C97A"/>
+          <stop offset="100%" stop-color="#C9A84C"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    Dosologia
+  </div>
+  <div class="nav-weight" id="navWt">-- kg</div>
+</nav>
+
+<!-- ══ HERO ══ -->
+
+<header class="hero">
+  <div class="hero-icon">
+    <div class="hero-icon-ring"></div>
+    <div class="hero-icon-inner">
+      <!-- Large SVG caduceus-inspired icon -->
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="10" stroke="url(#hg)" stroke-width="1.5" fill="none" opacity=".3"/>
+        <!-- Staff -->
+        <line x1="16" y1="7" x2="16" y2="25" stroke="url(#hg)" stroke-width="2" stroke-linecap="round"/>
+        <!-- Crossbar -->
+        <line x1="11" y1="13" x2="21" y2="13" stroke="url(#hg)" stroke-width="1.8" stroke-linecap="round"/>
+        <!-- Snake curves -->
+        <path d="M12 10 Q14 12 16 10 Q18 8 20 10" stroke="url(#hg2)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M12 16 Q14 18 16 16 Q18 14 20 16" stroke="url(#hg2)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M12 21 Q14 23 16 21 Q18 19 20 21" stroke="url(#hg2)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <!-- Star dot -->
+        <circle cx="16" cy="8" r="2" fill="url(#hg)" opacity=".8"/>
+        <defs>
+          <linearGradient id="hg" x1="0" y1="0" x2="32" y2="32">
+            <stop offset="0%" stop-color="#E8C97A"/>
+            <stop offset="100%" stop-color="#3ECFCF"/>
+          </linearGradient>
+          <linearGradient id="hg2" x1="0" y1="0" x2="32" y2="0">
+            <stop offset="0%" stop-color="#C9A84C"/>
+            <stop offset="100%" stop-color="#4EDFA0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <h1 class="hero-h1"><span>Dosologia</span></h1>
+  <p class="hero-sub">Pediatric Dose Calculator · حاسبة جرعات الأطفال</p>
+  <p class="hero-byline">crafted with <span class="heart">♥</span> by <strong>Dr. Mohammed Hamzah</strong> · Pediatric Resident · 2026</p>
+
+  <!-- SOCIAL -->
+
+  <div class="social-row">
+    <a href="https://t.me/Adrenalin_Rx" target="_blank" class="social-btn social-tg">
+      <!-- Telegram SVG -->
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+      @Adrenalin_Rx
+    </a>
+    <a href="https://www.reddit.com/u/7AmOoCh/s/jyFG0MZkf5" target="_blank" class="social-btn social-reddit">
+      <!-- Reddit SVG -->
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+      u/7AmOoCh
+    </a>
+  </div>
+
+  <!-- DAILY CARD -->
+
+  <div class="daily-wrap">
+    <div class="daily-card" id="dailyCard">
+      <div class="daily-glow" id="dailyGlow"></div>
+      <div class="daily-top">
+        <span class="daily-badge" id="dailyBadge"></span>
+        <span class="daily-date" id="dailyDate"></span>
+      </div>
+      <div class="daily-body">
+        <span class="daily-emoji" id="dailyEmoji"></span>
+        <div>
+          <div class="daily-text" id="dailyText"></div>
+          <div class="daily-source" id="dailySrc"></div>
+        </div>
+      </div>
+      <div class="daily-nav" id="dailyNav"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ MAIN LAYOUT ══ -->
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+```
+<!-- WEIGHT -->
+<div class="panel">
+  <div class="panel-label">Patient Weight</div>
+  <div class="w-row" onclick="document.getElementById('wNum').focus()">
+    <input type="number" id="wNum" class="w-input" placeholder="--" min="0.1" max="200" step="0.1" autocomplete="off">
+    <span class="w-unit">kg</span>
+  </div>
+</div>
+
+<!-- FLUIDS -->
+<div class="panel">
+  <div class="panel-label">Maintenance IV Fluids (Holliday-Segar)</div>
+  <div class="fluid-grid">
+    <div class="fluid-cell"><div class="fluid-val" id="fDay">--</div><div class="fluid-key">mL / day</div></div>
+    <div class="fluid-cell"><div class="fluid-val" id="fHr">--</div><div class="fluid-key">mL / hr</div></div>
+    <div class="fluid-cell"><div class="fluid-val" id="fBolus">--</div><div class="fluid-key">Bolus 20ml/kg</div></div>
+    <div class="fluid-cell"><div class="fluid-val" id="fShock">--</div><div class="fluid-key">Shock 10ml/kg</div></div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="panel">
+  <div class="panel-label">Quick Search</div>
+  <div class="search-wrap">
+    <input class="search-box" type="text" id="searchInput" placeholder="ابحث عن دواء..." autocomplete="off">
+    <span class="search-ico">⌕</span>
+  </div>
+</div>
+```
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+
+  <main>
+    <div class="sec-head">
+      <div class="sec-title" id="secTitle">Antiemetic Doses</div>
+      <div class="sec-count" id="secCount"></div>
+    </div>
+
+```
+<div class="tabs" id="tabs">
+  <button class="tab active" data-cat="anti">Antiemetics</button>
+  <button class="tab" data-cat="ster">Steroids</button>
+  <button class="tab" data-cat="conv">Anticonvulsants</button>
+  <button class="tab" data-cat="pyret">Antipyretics</button>
+  <button class="tab" data-cat="ab">Antibiotics</button>
+  <button class="tab" data-cat="fluid">Fluids</button>
+  <button class="tab" data-cat="other">Others</button>
+  <button class="tab dka-tab" data-cat="dka">🩸 DKA Protocol</button>
+</div>
+
+<div class="drugs-grid" id="drugsGrid"></div>
+<div id="dkaPanel" style="display:none"></div>
+```
+
+  </main>
+</div>
+
+<!-- ══ FOOTER ══ -->
+
+<footer>
+  <div class="footer-brand">Dosologia</div>
+  <div class="footer-credit">Pediatric Dose Calculator · Dr. Mohammed Hamzah · Pediatric Resident · 2026</div>
+  <div class="footer-social">
+    <a href="https://t.me/Adrenalin_Rx" target="_blank" class="social-btn social-tg">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+      Telegram: @Adrenalin_Rx
+    </a>
+    <a href="https://www.reddit.com/u/7AmOoCh/s/jyFG0MZkf5" target="_blank" class="social-btn social-reddit">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+      Reddit: u/7AmOoCh
+    </a>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════ DATA ═══════════════ */
+const CAT_NAMES={anti:'Antiemetic Doses',ster:'Steroid Doses',conv:'Anticonvulsant Doses',pyret:'Antipyretic Doses',ab:'Antibiotic Doses',fluid:'Fluid Doses',other:'Others',dka:'🩸 DKA Management Protocol'};
+
+const DRUGS={
+anti:[
+  {n:'Plasil® (Metoclopramide)',c:'5mg/ml',dose:'0.2 mg/kg',dMin:0.2,dMax:0.2,b:'IV/IM',col:'#A78BFA',fr:'BID–TID',fl:'NS / GW',ci:'CNS disorders, <1yr',f:w=>({v:(w*2).toFixed(1),u:'units / dose',e:'2 units/kg = '+(w*0.04).toFixed(2)+' cc'})},
+  {n:'Zofran® (Ondansetron)',c:'2mg/ml',dose:'0.2 mg/kg',dMin:0.2,dMax:0.2,b:'IV/IM',col:'#4EDFA0',fr:'BID–TID',fl:'NS / GW',ci:'<6 months',f:w=>({v:(w*2).toFixed(1),u:'units / dose',e:'2 units/kg = '+(w*0.1).toFixed(2)+' cc'})},
+],
+ster:[
+  {n:'Decadron® (Dexamethasone)',c:'4mg/ml',dose:'0.25 cc/5 kg',dMin:0.05,dMax:0.6,b:'IV/IM',col:'#F9A825',fr:'BID–QID',fl:'NS / GW / RL',ci:'>10 days, live vaccine, fungal',f:w=>({v:(w*0.05).toFixed(2),u:'cc / dose',e:'(0.25 cc per 5 kg)'})},
+  {n:'H.C (Hydrocortisone)',c:'50mg/ml',dose:'0.5 cc/5 kg',dMin:2.5,dMax:10,b:'IV',col:'#FFD54F',fr:'BID–QID',fl:'NS / GW',ci:'Untreated infection, DM, ITP',f:w=>({v:(w*0.1).toFixed(2),u:'cc / dose',e:'(0.5 cc per 5 kg)'})},
+],
+conv:[
+  {n:'Diazepam®',c:'5mg/ml',dose:'0.3 mg/kg IV',dMin:0.1,dMax:0.3,b:'IV/PR',col:'#A78BFA',fr:'q10–15 min × 3',fl:'NS / GW',ci:'<6 months, avoid rapid injection',f:w=>({v:(w*0.3).toFixed(2),u:'mg / dose',e:'IV: '+(w*0.06).toFixed(2)+' cc | Rectal: '+(w*0.5/5).toFixed(2)+' cc (0.5 mg/kg)'})},
+  {n:'Phenobarbitol® -- Bolus (Luminal)',c:'200mg/ml',dose:'15 mg/kg',dMin:15,dMax:20,b:'IV',col:'#C084FC',fr:'Single loading dose',fl:'NS / GW / RL',ci:'Airway obstruction',f:w=>({v:(w*15).toFixed(0),u:'mg (bolus)',e:'Volume: '+(w*15/200).toFixed(2)+' cc'})},
+  {n:'Phenobarbitol® -- Maintenance',c:'200mg/ml',dose:'5 mg/kg',dMin:5,dMax:5,b:'IV',col:'#C084FC',fr:'BID (8–12h after LD)',fl:'NS / GW',ci:'Airway obstruction',f:w=>({v:(w*5).toFixed(0),u:'mg (maint.)',e:'Volume: '+(w*5/200).toFixed(2)+' cc'})},
+  {n:'Phenytoin® -- Bolus',c:'50mg/ml',dose:'15 mg/kg',dMin:15,dMax:20,b:'IV',col:'#818CF8',fr:'Loading dose -- over 20–30 min',fl:'NS ONLY!',ci:'Heart block, bradycardia',f:w=>({v:(w*15).toFixed(0),u:'mg (bolus)',e:'Volume: '+(w*15/50).toFixed(2)+' cc'})},
+  {n:'Phenytoin® -- Maintenance',c:'50mg/ml',dose:'5 mg/kg',dMin:5,dMax:5,b:'IV',col:'#818CF8',fr:'BID',fl:'NS ONLY!',ci:'Heart block, bradycardia',f:w=>({v:(w*5).toFixed(0),u:'mg (maint.)',e:'Volume: '+(w*5/50).toFixed(2)+' cc'})},
+],
+pyret:[
+  {n:'Paracetamol® (Syrup/Supp)',c:'120mg/5ml',dose:'1–1.5 cc/kg',dMin:10,dMax:15,b:'PO/PR',col:'#3ECFCF',fr:'q6–8h (max 4 doses/day)',fl:'PO / Rectal',ci:'Liver damage',f:w=>({v:(w*1).toFixed(1),u:'cc / dose',e:'Max 1.5 cc/kg = '+(w*1.5).toFixed(1)+' cc'})},
+  {n:'Profen® (Ibuprofen)',c:'100mg/5ml',dose:'10 mg/kg/dose',dMin:10,dMax:10,b:'PO',col:'#4EDFA0',fr:'BID (q12h)',fl:'PO with food',ci:'<6 months, GI ulcer, renal impairment',f:w=>({v:(w*10).toFixed(0),u:'mg / dose',e:'Volume: '+(w*10/20).toFixed(1)+' cc'})},
+  {n:'Voltaren® (Diclofenac)',c:'25mg/ml',dose:'0.5 cc/5 kg',dMin:1,dMax:3,b:'IM/Supp',col:'#F9A825',fr:'BID–TID (>3 years only)',fl:'IM deep',ci:'<3 years, renal impairment, GI bleed',f:w=>({v:(w*0.1).toFixed(2),u:'cc / dose',e:'(0.5 cc per 5 kg)'})},
+  {n:'Ponstan® (Mefenamic acid)',c:'50mg/ml',dose:'20 mg/kg/dose',dMin:20,dMax:20,b:'PO',col:'#3ECFCF',fr:'TID',fl:'PO with food',ci:'GI ulcer, renal impairment, <6 months',f:w=>({v:(w*20).toFixed(0),u:'mg / dose',e:'Volume: '+(w*20/50).toFixed(1)+' cc'})},
+],
+ab:[
+  {n:'Amoxicillin®',c:'--',dose:'100 mg/kg/day',dMin:80,dMax:100,b:'IV/PO',col:'#F9A825',fr:'TID (× 3)',fl:'10ml/200mg · 20–30 min',ci:'Allergy, EBV',f:w=>({v:(w*100).toFixed(0),u:'mg / day',e:'÷ 3 doses = '+(w*100/3).toFixed(0)+' mg/dose'})},
+  {n:'Flagyl® (Metronidazole)',c:'5mg/ml',dose:'1.5 cc/kg',dMin:15,dMax:30,b:'IV/PO',col:'#4EDFA0',fr:'TID (× 3)',fl:'100ml/500mg · 60 min',ci:'Liver failure, Porphyria',f:w=>({v:(w*1.5).toFixed(1),u:'cc / dose',e:'(1.5 cc/kg × 3/day)'})},
+  {n:'Ampicillin®',c:'--',dose:'100–200 mg/kg/day',dMin:100,dMax:200,b:'IV',col:'#F9A825',fr:'× 4 (infants) · × 2 (neonates)',fl:'15–30 min',ci:'Allergy, EBV',f:w=>({v:(w*150).toFixed(0),u:'mg / day',e:'Infant ÷4='+(w*150/4).toFixed(0)+' | Neonate ÷2='+(w*150/2).toFixed(0)+' mg'})},
+  {n:'Claforan® (Cefotaxime)',c:'--',dose:'100–200 mg/kg/day',dMin:100,dMax:200,b:'IV',col:'#3ECFCF',fr:'QID (× 4)',fl:'5ml/200mg · 10–30 min',ci:'Allergy, max 10 days',f:w=>({v:(w*150).toFixed(0),u:'mg / day',e:'÷ 4 doses = '+(w*150/4).toFixed(0)+' mg/dose'})},
+  {n:'Ceftriaxone®',c:'--',dose:'50–100 mg/kg/day',dMin:50,dMax:100,b:'IV/IM',col:'#3ECFCF',fr:'BID (× 2)',fl:'5ml/100mg · 15–30 min',ci:'NNJ, RL, Ca++, PKU',f:w=>({v:(w*75).toFixed(0),u:'mg / day',e:'÷ 2 doses = '+(w*75/2).toFixed(0)+' mg/dose'})},
+  {n:'Vancomycin®',c:'--',dose:'15 mg/kg/day',dMin:15,dMax:15,b:'IV',col:'#E05C6C',fr:'QID (× 4)',fl:'100ml/500mg · 60–90 min',ci:'Corn allergy, renal failure',f:w=>({v:(w*15).toFixed(0),u:'mg / day',e:'÷ 4 doses = '+(w*15/4).toFixed(0)+' mg/dose'})},
+  {n:'Amikacin®',c:'500mg/2ml',dose:'15 mg/kg/day',dMin:15,dMax:15,b:'IV',col:'#4EDFA0',fr:'BID (× 2)',fl:'10ml/50mg · 30 min',ci:'Renal failure, Myasthenia',f:w=>({v:(w*15).toFixed(0),u:'mg / day',e:'÷ 2 doses = '+(w*15/2).toFixed(0)+' mg/dose'})},
+  {n:'Meropenem®',c:'--',dose:'100 mg/kg/dose',dMin:60,dMax:120,b:'IV',col:'#E05C6C',fr:'BID (× 2)',fl:'10ml/200mg · 15–30 min',ci:'Allergy, seizures, renal failure',f:w=>({v:(w*100).toFixed(0),u:'mg / dose',e:'(100 mg/kg per dose × 2/day)'})},
+  {n:'Erythromycin®',c:'--',dose:'10 mg/kg/day',dMin:10,dMax:10,b:'IV/PO',col:'#F9A825',fr:'TID (× 3)',fl:'slow infusion',ci:'QT prolongation, liver disease',f:w=>({v:(w*10).toFixed(0),u:'mg / day',e:'÷ 3 doses = '+(w*10/3).toFixed(0)+' mg/dose'})},
+],
+fluid:[
+  {n:'Blood (Whole Blood)',c:'--',dose:'20 cc/kg',dMin:20,dMax:20,b:'IV',col:'#E05C6C',fr:'over 3–4 hours',fl:'Blood warmer',ci:'Crossmatch required',f:w=>({v:(w*20).toFixed(0),u:'cc / transfusion',e:''})},
+  {n:'Packed R.B.C',c:'--',dose:'10 cc/kg',dMin:10,dMax:10,b:'IV',col:'#E05C6C',fr:'over 3–4 hours',fl:'Blood warmer',ci:'Crossmatch required',f:w=>({v:(w*10).toFixed(0),u:'cc / transfusion',e:''})},
+  {n:'Plasma (FFP)',c:'--',dose:'15 cc/kg',dMin:15,dMax:15,b:'IV',col:'#A78BFA',fr:'over 30–60 min',fl:'ABO compatible',ci:'Volume overload',f:w=>({v:(w*15).toFixed(0),u:'cc / dose',e:''})},
+  {n:'Cryo (Cryoprecipitate)',c:'--',dose:'1 pint/5 kg',dMin:1,dMax:1,b:'IV',col:'#A78BFA',fr:'over 30 min',fl:'ABO compatible',ci:'--',f:w=>({v:(w/5).toFixed(1),u:'pints / dose',e:''})},
+  {n:'Platelets',c:'--',dose:'1 pint/10 kg',dMin:1,dMax:1,b:'IV',col:'#FFD54F',fr:'over 20–30 min',fl:'ABO compatible',ci:'--',f:w=>({v:(w/10).toFixed(1),u:'pints / dose',e:''})},
+  {n:'Mannitol® 20%',c:'200mg/ml',dose:'2.5 cc/kg',dMin:2.5,dMax:5,b:'IV',col:'#3ECFCF',fr:'over 20–30 min',fl:'Filter required',ci:'Anuria, severe dehydration',f:w=>({v:(w*2.5).toFixed(1),u:'cc / dose',e:'(2.5 cc/kg) -- max 250 cc'})},
+  {n:'Hypertonic Saline 3% -- Asymptomatic',c:'3%',dose:'2 cc/kg',dMin:2,dMax:2,b:'IV',col:'#3ECFCF',fr:'over 15–30 min',fl:'Central line preferred',ci:'Hypernatremia',f:w=>({v:(w*2).toFixed(1),u:'cc / dose',e:'(asymptomatic hyponatremia)'})},
+  {n:'Hypertonic Saline 3% -- Symptomatic',c:'3%',dose:'4 cc/kg',dMin:4,dMax:4,b:'IV',col:'#E05C6C',fr:'STAT over 15 min',fl:'Central line preferred',ci:'Hypernatremia',f:w=>({v:(w*4).toFixed(1),u:'cc / dose',e:'(symptomatic -- seizures/coma)'})},
+  {n:'Albumin 20%',c:'200mg/ml',dose:'0.5g/kg',dMin:0.5,dMax:1,b:'IV',col:'#FFD54F',fr:'over 2–4 hours',fl:'NS 1:1 dilution',ci:'Cardiac failure',f:w=>({v:(w*0.5).toFixed(1),u:'g / dose',e:'Volume: '+(w*0.5/0.2).toFixed(0)+' cc of 20% solution'})},
+],
+other:[
+  {n:'Adrenaline® (Epinephrine)',c:'1mg/ml',dose:'1 unit/kg/dose',dMin:0.01,dMax:0.03,b:'IV/IM',col:'#E05C6C',fr:'q3–5 min',fl:'NS flush',ci:'--',f:w=>({v:(w*1).toFixed(0),u:'units / dose',e:'= '+(w*0.01).toFixed(3)+' mg = '+(w*0.01).toFixed(3)+' cc'})},
+  {n:'Aminophylline®',c:'25mg/ml',dose:'1 cc/5 kg',dMin:5,dMax:8,b:'IV',col:'#FFD54F',fr:'LD then BID/TID',fl:'NS / GW / RL slow',ci:'Cardiac failure, arrhythmia',f:w=>({v:(w*0.2).toFixed(2),u:'cc (LD)',e:'(1 cc per 5 kg)'})},
+  {n:'Allermin® (Chlorphenamine)',c:'10mg/ml',dose:'0.25 cc/5 kg',dMin:0.1,dMax:0.4,b:'IV/IM',col:'#A78BFA',fr:'BID–TID',fl:'NS / GW',ci:'Neonates, glaucoma',f:w=>({v:(w*0.05).toFixed(2),u:'cc / dose',e:'(0.25 cc per 5 kg)'})},
+  {n:'Lasix® (Furosemide)',c:'10mg/ml',dose:'1 mg/kg',dMin:1,dMax:2,b:'IV/IM',col:'#3ECFCF',fr:'BID–QID',fl:'NS',ci:'Anuria',f:w=>({v:(w*1).toFixed(1),u:'mg / dose',e:'Volume: '+(w*1/10).toFixed(2)+' cc'})},
+  {n:'Atropine®',c:'1mg/ml',dose:'1 unit (0.1 mg)/kg/dose',dMin:0.01,dMax:0.03,b:'IV/ET',col:'#F9A825',fr:'q5–10 min',fl:'NS / GW',ci:'Tachycardia, GI obstruction',f:w=>({v:(w*1).toFixed(0),u:'units / dose',e:'= '+(w*0.1).toFixed(1)+' mg = '+(w*0.1).toFixed(2)+' cc'})},
+],
+};
+
+/* ═══════════════ DAILY ═══════════════ */
+const DAILY=[
+  {type:'quote',emoji:'📖',text:'"The good physician treats the disease; the great physician treats the patient who has the disease."',source:'Sir William Osler · Aequanimitas, 1904',color:'#C9A84C'},
+  {type:'quote',emoji:'📖',text:'"Medicine is a science of uncertainty and an art of probability."',source:'Sir William Osler',color:'#C9A84C'},
+  {type:'quote',emoji:'📖',text:'"It is much more important to know what sort of patient has a disease than what sort of disease a patient has."',source:'Sir William Osler',color:'#E8C97A'},
+  {type:'quote',emoji:'📖',text:'"To study the phenomena of disease without books is to sail an uncharted sea, while to study books without patients is not to go to sea at all."',source:'Sir William Osler',color:'#4EDFA0'},
+  {type:'quote',emoji:'📖',text:'"First Aid: The mechanism is the answer. Never memorize what you can derive."',source:'First Aid for the USMLE Step 1',color:'#4EDFA0'},
+  {type:'quote',emoji:'📖',text:'"Step 1 tests one thing above all: can you think like a basic scientist standing at the bedside?"',source:'USMLE Step 1 Study Principle',color:'#3ECFCF'},
+  {type:'quote',emoji:'📖',text:'"Primum non nocere -- First, do no harm."',source:'Hippocratic Tradition',color:'#C9A84C'},
+  {type:'quote',emoji:'📖',text:'"The secret of the care of the patient is in caring for the patient."',source:'Francis W. Peabody, JAMA 1927',color:'#A78BFA'},
+  {type:'quote',emoji:'📖',text:'"Wherever the art of medicine is loved, there is also a love of humanity."',source:'Hippocrates',color:'#A78BFA'},
+  {type:'fact',emoji:'🧠',text:'الدماغ البشري يستهلك 20% من أوكسجين الجسم رغم أنه لا يتجاوز 2% من وزنه -- ولهذا يفقد الطفل وعيه في ثوانٍ عند انقطاع التدفق الدماغي.',source:'Neurophysiology · Clinical Pearls',color:'#A78BFA'},
+  {type:'fact',emoji:'❤️',text:'قلب الجنين يبدأ بالنبض في اليوم الـ22 من الحمل -- قبل أن تعرف الأم أنها حامل في الغالب.',source:'Embryology · Moore & Persaud',color:'#E05C6C'},
+  {type:'fact',emoji:'🦠',text:'جسم الإنسان يحتوي على بكتيريا أكثر من خلاياه -- نسبة 1.3:1 لصالح البكتيريا. الـ microbiome ليس عدواً، بل شريك حياة.',source:'Human Microbiome Project · NIH',color:'#4EDFA0'},
+  {type:'fact',emoji:'🩺',text:'الستيثوسكوب اخترعه René Laennec عام 1816 لأنه استحى أن يضع أذنه على صدر مريضة سمينة -- الحياء أم الاختراع.',source:'History of Medicine · Laennec 1816',color:'#F9A825'},
+  {type:'fact',emoji:'🧬',text:'الـ DNA في خلية واحدة إذا فُرد بالكامل يبلغ طوله حوالي 2 متر -- وجسمك يحتوي 37 تريليون خلية.',source:'Molecular Biology Perspective',color:'#3ECFCF'},
+  {type:'fact',emoji:'🔬',text:'الـ Penicillin اكتشفه Fleming عام 1928 بالصدفة -- لكن العبقرية الحقيقية كانت في إدراكه أن ما رآه ليس خطأً بل اكتشافاً.',source:'Alexander Fleming · Nobel Prize 1945',color:'#4EDFA0'},
+  {type:'fact',emoji:'🌙',text:'النوم العميق (Slow-wave sleep) هو وقت تنظيف الدماغ حرفياً -- الـ glymphatic system يعمل بالليل لإزالة البروتينات الضارة.',source:'Sleep Neuroscience · Nedergaard 2013',color:'#A78BFA'},
+  {type:'meme',emoji:'😅',text:'Intern يسمع hoofbeats:\n"Horses? Zebras? Rare tropical disease?\nبكره أكمل الـ DDx..."\n\nConsultant: "Viral. يروح بيته."',source:'Medical Hierarchy · Universal Truth',color:'#A78BFA'},
+  {type:'meme',emoji:'😭',text:'Step 1 studying timeline:\nأسبوع 1: "أنا رح أفهم كل pathway من الأساس"\nأسبوع 8: "Golgi يشغل أو لا؟"\nأسبوع 14: "ما فرق، الجواب C دايماً"',source:'USMLE Step 1 Experience',color:'#A78BFA'},
+  {type:'meme',emoji:'🎯',text:'الفرق بين Intern وConsultant:\nIntern: يكتب 3 صفحات.\nConsultant: "Improving, continue plan."\n\nكلاهم صح -- الخبرة تكثّف.',source:'Clinical Wisdom · Residency Life',color:'#A78BFA'},
+  {type:'meme',emoji:'☕',text:'محادثة كل يوم في المستشفى:\n"كيف حالك؟"\n"تعبان، بس القهوة تساعد."\n\nالقهوة: أكثر دواء استخدامه الأطباء يومياً بدون وصفة.',source:'Medical Humor · Universal',color:'#F9A825'},
+  {type:'meme',emoji:'🏥',text:'"On call" يعني: الساعة 3 صبح، طفل يبكي، أهل يسألون عن الداكتور الكبير، وأنت... أنت الداكتور الكبير الآن.',source:'Residency Life · Pediatrics Ward',color:'#F9A825'},
+];
+
+let dailyIdx=new Date().getDate()%DAILY.length;
+
+function renderDaily(idx){
+  const it=DAILY[idx];
+  const card=document.getElementById('dailyCard');
+  card.style.setProperty('--dc',it.color);
+  document.getElementById('dailyGlow').style.cssText=`background:radial-gradient(circle,${it.color},transparent 70%);position:absolute;top:-80px;right:-80px;width:240px;height:240px;border-radius:50%;opacity:.05;pointer-events:none`;
+  const lbl={quote:'✦ اقتباس',fact:'◈ حقيقة',meme:'✧ طرفة'};
+  const b=document.getElementById('dailyBadge');
+  b.textContent=lbl[it.type]||'';
+  b.style.cssText=`color:${it.color};border-color:${it.color}40;background:${it.color}12`;
+  const d=new Date();
+  document.getElementById('dailyDate').textContent=d.toLocaleDateString('ar-IQ',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('dailyEmoji').textContent=it.emoji;
+  document.getElementById('dailyText').textContent=it.text;
+  document.getElementById('dailySrc').textContent='-- '+it.source;
+  const nav=document.getElementById('dailyNav');
+  nav.innerHTML='';
+  DAILY.forEach((_,i)=>{
+    const dot=document.createElement('span');
+    dot.className='daily-dot'+(i===idx?' active':'');
+    dot.onclick=()=>{dailyIdx=i;renderDaily(i)};
+    nav.appendChild(dot);
+  });
+}
+
+/* ═══════════════ DKA ═══════════════ */
+function renderDKA(){
+  const panel=document.getElementById('dkaPanel');
+  document.getElementById('drugsGrid').style.display='none';
+  panel.style.display='block';
+  if(!W){
+    panel.innerHTML=`<div class="dka-no-w"><div class="ico">🩸</div><p>أدخل وزن الطفل لحساب بروتوكول DKA</p></div>`;
+    return;
+  }
+  const wt=W;
+  const defMod=(wt*0.07*1000).toFixed(0);
+  const defSev=(wt*0.10*1000).toFixed(0);
+  const bolus=(wt*10).toFixed(0);
+  let m48;
+  if(wt<=10) m48=wt*100*2;
+  else if(wt<=20) m48=(1000+(wt-10)*50)*2;
+  else m48=(1500+(wt-20)*20)*2;
+  m48=Math.min(m48,4800);
+  const tfMod=(parseFloat(defMod)+m48).toFixed(0);
+  const tfSev=(parseFloat(defSev)+m48).toFixed(0);
+  const rMod=(parseFloat(tfMod)/48).toFixed(1);
+  const rSev=(parseFloat(tfSev)/48).toFixed(1);
+  const insL=(wt*0.05).toFixed(2);
+  const insH=(wt*0.1).toFixed(2);
+  const kL=(wt*3).toFixed(0);
+  const kH=(wt*5).toFixed(0);
+  panel.innerHTML=`
+  <div class="dka-src-row">
+    <span class="dka-pill">📚 ISPAD 2022</span>
+    <span class="dka-pill">📚 ADA Pediatric DKA 2023</span>
+    <span class="dka-pill">📚 PECARN Protocol</span>
+    <span class="dka-wt">⚖ ${wt} kg</span>
+  </div>
+  <div class="dka-sec">
+    <div class="dka-sec-lbl">Severity Criteria</div>
+    <div class="dka-sev3">
+      <div class="dka-sev-c" style="border-color:rgba(78,223,160,0.3)"><div class="dka-sev-l">Mild</div><div class="dka-sev-v" style="color:#4EDFA0">pH 7.20–7.30<br>HCO₃ 10–15</div></div>
+      <div class="dka-sev-c" style="border-color:rgba(249,168,37,0.3)"><div class="dka-sev-l">Moderate</div><div class="dka-sev-v" style="color:#F9A825">pH 7.10–7.20<br>HCO₃ 5–10</div></div>
+      <div class="dka-sev-c" style="border-color:rgba(224,92,108,0.3)"><div class="dka-sev-l">Severe</div><div class="dka-sev-v" style="color:#E05C6C">pH &lt;7.10<br>HCO₃ &lt;5</div></div>
+    </div>
+  </div>
+  <div class="dka-sec">
+    <div class="dka-sec-lbl">Step 1 -- Resuscitation (Shock Only)</div>
+    <div class="dka-cards">
+      <div class="dka-c" style="--dc3:#E05C6C">
+        <div class="dka-alert">⚠ ONLY if hemodynamic compromise</div>
+        <div class="dka-c-name">Normal Saline 0.9% Bolus</div>
+        <div class="dka-c-sub">فقط عند shock أو تدهور الدوران -- لا تُعطى روتينياً</div>
+        <div class="dka-r"><div class="dka-rl">Volume</div><div class="dka-rv">${bolus}</div><div class="dka-ru">mL over 10–20 min (10 ml/kg) · max 20 ml/kg total</div></div>
+        <div class="dka-warn">⚠ ISPAD 2022: Aggressive fluids ↑ risk of cerebral edema.</div>
+      </div>
+    </div>
+  </div>
+  <div class="dka-sec">
+    <div class="dka-sec-lbl">Step 2 -- IV Rehydration over 48 hours</div>
+    <div class="dka-cards">
+      <div class="dka-c" style="--dc3:#F9A825">
+        <div class="dka-c-name">Moderate Dehydration (~7%)</div>
+        <div class="dka-c-sub">Deficit: ${defMod} mL + Maintenance 48h: ${m48} mL</div>
+        <div class="dka-r"><div class="dka-rl">Total Volume</div><div class="dka-rv">${tfMod}</div><div class="dka-ru">mL over 48 hours</div></div>
+        <div class="dka-r"><div class="dka-rl">Rate</div><div class="dka-rv">${rMod}</div><div class="dka-ru">mL / hour</div></div>
+        <div class="dka-note">Start with 0.9% NS first 12h → switch to 0.45% NS + KCl once urinating</div>
+      </div>
+      <div class="dka-c" style="--dc3:#E05C6C">
+        <div class="dka-c-name">Severe Dehydration (~10%)</div>
+        <div class="dka-c-sub">Deficit: ${defSev} mL + Maintenance 48h: ${m48} mL</div>
+        <div class="dka-r"><div class="dka-rl">Total Volume</div><div class="dka-rv">${tfSev}</div><div class="dka-ru">mL over 48 hours</div></div>
+        <div class="dka-r"><div class="dka-rl">Rate</div><div class="dka-rv">${rSev}</div><div class="dka-ru">mL / hour</div></div>
+        <div class="dka-note">Start with 0.9% NS first 12h → switch to 0.45% NS + KCl once urinating</div>
+      </div>
+    </div>
+  </div>
+  <div class="dka-sec">
+    <div class="dka-sec-lbl">Step 3 -- Insulin Infusion</div>
+    <div class="dka-cards">
+      <div class="dka-c" style="--dc3:#3ECFCF">
+        <div class="dka-c-name">Regular Insulin IV Infusion</div>
+        <div class="dka-c-sub">لا تُعطى إلا بعد ساعة من بدء السوائل -- لا bolus insulin</div>
+        <div class="dka-r"><div class="dka-rl">Dose (Standard)</div><div class="dka-rv">${insH}</div><div class="dka-ru">units/hour (0.1 unit/kg/hr)</div></div>
+        <div class="dka-r"><div class="dka-rl">Dose (Mild / Young child)</div><div class="dka-rv">${insL}</div><div class="dka-ru">units/hour (0.05 unit/kg/hr) -- ISPAD 2022 preferred</div></div>
+        <div class="dka-note">📌 Target BG drop: 50–100 mg/dL per hour. NOT faster.</div>
+        <div class="dka-warn">⚠ Add 5% Dextrose when BG &lt;300 mg/dL (14 mmol/L) -- do NOT stop insulin.</div>
+      </div>
+      <div class="dka-c" style="--dc3:#4EDFA0">
+        <div class="dka-c-name">Dextrose Addition</div>
+        <div class="dka-c-sub">عند وصول السكر &lt;300 mg/dL أثناء infusion</div>
+        <div class="dka-r"><div class="dka-rl">Add to IV bag</div><div class="dka-rv">5–10%</div><div class="dka-ru">Dextrose concentration in running fluid</div></div>
+        <div class="dka-note">Goal: maintain BG 150–300 mg/dL until anion gap closes + acidosis resolves.</div>
+      </div>
+    </div>
+  </div>
+  <div class="dka-sec">
+    <div class="dka-sec-lbl">Step 4 -- Potassium Replacement</div>
+    <div class="dka-cards">
+      <div class="dka-c" style="--dc3:#FFD54F">
+        <div class="dka-c-name">KCl Replacement</div>
+        <div class="dka-c-sub">يبدأ فقط بعد تأكيد التبول وقراءة K المخبرية</div>
+        <div class="dka-r"><div class="dka-rl">Daily Requirement</div><div class="dka-rv">${kL}–${kH}</div><div class="dka-ru">mEq/day (3–5 mEq/kg/day)</div></div>
+        <div class="dka-r"><div class="dka-rl">In IV fluid</div><div class="dka-rv">40</div><div class="dka-ru">mEq/L في كل لتر سوائل</div></div>
+        <div class="dka-warn">⚠ لا تعطِ KCl إذا K &gt;5.5 أو لم يتبوّل. إذا K &lt;3.0 → أعطِ K قبل insulin.</div>
+      </div>
+    </div>
+  </div>
+  <div class="dka-sec">
+    <div class="dka-sec-lbl">Step 5 -- Bicarbonate (Rarely Needed)</div>
+    <div class="dka-cards">
+      <div class="dka-c" style="--dc3:#A78BFA">
+        <div class="dka-c-name">NaHCO₃ -- Exceptional Use Only</div>
+        <div class="dka-c-sub">ISPAD 2022: غير موصى به إلا في حالات نادرة جداً</div>
+        <div class="dka-r"><div class="dka-rl">Indication</div><div class="dka-rv" style="font-size:1rem;padding-top:4px">pH &lt; 6.9</div><div class="dka-ru">+ Life-threatening hyperkalemia or hemodynamic instability</div></div>
+        <div class="dka-r"><div class="dka-rl">Dose</div><div class="dka-rv">${(wt*1).toFixed(0)}–${(wt*2).toFixed(0)}</div><div class="dka-ru">mEq slow IV over 60 min (1–2 mEq/kg)</div></div>
+        <div class="dka-warn">⚠ Bicarbonate ↑ risk of cerebral edema, hypokalemia, paradoxical CSF acidosis.</div>
+      </div>
+    </div>
+  </div>
+  <div class="dka-sec">
+    <div class="dka-sec-lbl">Monitoring Protocol</div>
+    <div class="dka-c" style="--dc3:#3ECFCF">
+      <div class="dka-c-name">Mandatory Monitoring</div>
+      <div class="dka-steps">
+        <div class="dka-step"><span class="dka-step-n">q1h</span><div class="dka-step-b"><strong>BG (bedside glucometer)</strong> -- target drop 50–100 mg/dL/hr, not faster</div></div>
+        <div class="dka-step"><span class="dka-step-n">q2h</span><div class="dka-step-b"><strong>Vitals + neuro check</strong> -- GCS, pupils, headache, vomiting → cerebral edema signs</div></div>
+        <div class="dka-step"><span class="dka-step-n">q2–4h</span><div class="dka-step-b"><strong>ABG/VBG + electrolytes + BUN/Cr</strong> -- monitor K⁺ closely, check anion gap closure</div></div>
+        <div class="dka-step"><span class="dka-step-n">AG formula</span><div class="dka-step-b"><strong>Na⁺ + K⁺ − Cl⁻ − HCO₃⁻</strong> -- normal &lt;12. DKA resolved: AG closes + HCO₃ &gt;15 + pH &gt;7.30</div></div>
+        <div class="dka-step"><span class="dka-step-n" style="color:#E05C6C">⚠ EDEMA</span><div class="dka-step-b" style="color:#f0a0aa"><strong>Cerebral Edema:</strong> Headache, vomiting, ↓consciousness, bradycardia, ↑BP, pupil changes → Mannitol 0.5–1 g/kg IV STAT</div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ═══════════════ STATE & LOGIC ═══════════════ */
+let W=null, CAT='anti', SEL=null, Q='';
+
+function init(){
+  renderDaily(dailyIdx);
+  document.getElementById('wNum').addEventListener('input',()=>{
+    const v=parseFloat(document.getElementById('wNum').value);
+    onWeight(isNaN(v)||v<=0?null:v);
+  });
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      CAT=t.dataset.cat; SEL=null; Q='';
+      document.getElementById('searchInput').value='';
+      if(CAT==='dka'){
+        document.getElementById('drugsGrid').style.display='none';
+        document.getElementById('dkaPanel').style.display='block';
+        document.getElementById('secTitle').textContent=CAT_NAMES['dka'];
+        document.getElementById('secCount').textContent='ISPAD 2022 · ADA 2023';
+        renderDKA();
+      } else {
+        document.getElementById('dkaPanel').style.display='none';
+        document.getElementById('drugsGrid').style.display='grid';
+        render();
+      }
+    });
+  });
+  document.getElementById('searchInput').addEventListener('input',e=>{
+    Q=e.target.value.toLowerCase().trim();
+    SEL=null;
+    if(CAT==='dka') return;
+    render();
+  });
+  render();
+}
+
+function onWeight(w){
+  W=w;
+  const nw=document.getElementById('navWt');
+  nw.textContent=W?`${W} kg`:'-- kg';
+  nw.className='nav-weight'+(W?' has-val':'');
+  updateFluids();
+  if(CAT==='dka') renderDKA();
+  else if(SEL) render();
+}
+
+function updateFluids(){
+  if(!W){['fDay','fHr','fBolus','fShock'].forEach(id=>document.getElementById(id).textContent='--');return;}
+  let d;
+  if(W<=10) d=W*100;
+  else if(W<=20) d=1000+(W-10)*50;
+  else d=1500+(W-20)*20;
+  d=Math.min(d,2400);
+  document.getElementById('fDay').textContent=Math.round(d);
+  document.getElementById('fHr').textContent=(d/24).toFixed(1);
+  document.getElementById('fBolus').textContent=Math.round(W*20);
+  document.getElementById('fShock').textContent=Math.round(W*10);
+}
+
+function getDrugs(){
+  if(Q){
+    let a=[];
+    Object.values(DRUGS).forEach(arr=>a=a.concat(arr));
+    return a.filter(d=>d.n.toLowerCase().includes(Q)||d.dose.toLowerCase().includes(Q));
+  }
+  return DRUGS[CAT]||[];
+}
+
+function render(){
+  const list=getDrugs();
+  document.getElementById('secTitle').textContent=Q?`Search: "${Q}"`:CAT_NAMES[CAT]||'';
+  document.getElementById('secCount').textContent=list.length+' drugs';
+  const grid=document.getElementById('drugsGrid');
+  grid.innerHTML='';
+  if(!list.length){
+    grid.innerHTML='<div class="no-results"><div class="ico">⌕</div><p>No results found</p></div>';
+    return;
+  }
+  list.forEach((d,i)=>{
+    const isSel=SEL===d.n;
+    const card=document.createElement('div');
+    card.className='drug-card'+(isSel?' sel':'');
+    card.style.setProperty('--cc',d.col);
+
+    let body='';
+    if(isSel){
+      if(W){
+        const c=d.f(W);
+        const nv=parseFloat(c.v);
+        let pct=50,rt='';
+        if(!isNaN(nv)&&d.dMin&&d.dMax&&d.dMin!==d.dMax){
+          const mn=W*d.dMin,mx=W*d.dMax;
+          pct=Math.min(Math.max(((nv-mn)/(mx-mn))*100,0),100);
+          rt=`${mn.toFixed(1)} ← ${nv} → ${mx.toFixed(1)}`;
+        }
+        body=`<div class="res-panel">
+          <div class="res-grid">
+            <div class="res-item">
+              <div class="res-lbl">✦ Calculated Dose</div>
+              <div class="res-val lg">${c.v}</div>
+              <div class="res-sub">${c.u}</div>
+              ${c.e?`<div class="res-sub hi">${c.e}</div>`:''}
+            </div>
+            <div class="res-item">
+              <div class="res-lbl">◈ Dose Range</div>
+              <div class="res-val ac" style="font-size:.95rem;padding-top:4px">${d.dose}</div>
+              <div class="rbar-wrap" id="rb${i}"><div class="rbar-fill" id="rbf${i}"></div></div>
+              ${rt?`<div class="res-sub" style="font-size:.55rem;margin-top:3px">${rt}</div>`:''}
+            </div>
+            <div class="res-item">
+              <div class="res-lbl">⚖ Weight</div>
+              <div class="res-val ac">${W}</div>
+              <div class="res-sub">kg</div>
+            </div>
+          </div>
+          <div class="freq-row">
+            <span class="freq-pill">⏱ ${d.fr}</span>
+            ${d.fl&&d.fl!=='--'?`<span class="freq-pill">💧 ${d.fl}</span>`:''}
+          </div>
+          ${d.ci&&d.ci!=='--'?`<div class="ci-box"><strong>⚠ Contraindications</strong>${d.ci}</div>`:''}
+        </div>`;
+      } else {
+        body=`<div class="res-panel"><div class="no-w-hint">← Enter patient weight first</div></div>`;
+      }
+    }
+
+    card.innerHTML=`
+      <div class="d-head">
+        <div>
+          <div class="d-name">${d.n}</div>
+          <div class="d-conc">${d.c}</div>
+        </div>
+        <span class="d-route" style="background:${d.col}18;color:${d.col};border:1px solid ${d.col}35">${d.b}</span>
+      </div>
+      <div class="d-dose">
+        <span class="d-chip">📊 ${d.dose}</span>
+      </div>
+      ${body}
+    `;
+
+    card.addEventListener('click',()=>{
+      SEL=isSel?null:d.n;
+      render();
+      if(!isSel) setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'nearest'}),60);
+    });
+
+    card.style.animation=`fadeIn .3s ease ${i*.04}s both`;
+    grid.appendChild(card);
+
+    if(isSel&&W){
+      const nv=parseFloat(d.f(W).v);
+      let pct=50;
+      if(!isNaN(nv)&&d.dMin&&d.dMax&&d.dMin!==d.dMax){
+        const mn=W*d.dMin,mx=W*d.dMax;
+        pct=Math.min(Math.max(((nv-mn)/(mx-mn))*100,0),100);
+      }
+      setTimeout(()=>{const el=document.getElementById('rbf'+i);if(el)el.style.width=pct+'%';},80);
+    }
+  });
+}
+
+init();
+</script>
+
+</body>
+</html>
